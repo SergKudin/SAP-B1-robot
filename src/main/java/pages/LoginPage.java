@@ -1,6 +1,7 @@
 
 package pages;
 
+import akka.Main;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.Factory;
@@ -9,46 +10,63 @@ import utils.WebUtils;
 
 public class LoginPage extends BasePage {
 
-    private static final String BASE = "//section[@class='login-page has-animation']";
-    private static final String LOGIN = BASE + "//input[@id='userEmail']";
-    private static final String PASS = BASE + "//input[@id='userPass']";
-    private static final String BUTTON = BASE + "//button[@id='se_userLogin']";
-    @FindBy(xpath = LOGIN) //"//section[@class='login-page has-animation']//input[@id='userEmail']")
+//    private static final String BASE = "//section[@class='login-page has-animation']";
+    private static final String COMPANY = "//input[@id='sbo_custom_company']";
+    private static final String LOGIN = "//input[@id='sbo_user']";
+    private static final String PASS =  "//input[@id='sbo_password']";
+    private static final String BUTTON = "//input[@id='logon_sbo_btn']";
+    private static final String LOG_ON_BY_DOMAIN = "//input[@id='logon_by_domain']";
+    @FindBy(xpath = COMPANY)
+    private WebElement loginCompany;
+    @FindBy(xpath = LOGIN)
     private WebElement loginInput;
-    @FindBy(xpath = PASS) //"//section[@class='login-page has-animation']//input[@id='userPass']")
+    @FindBy(xpath = PASS)
     private WebElement passInput;
-    @FindBy(xpath = BUTTON) //"//section[@class='login-page has-animation']//button[@id='se_userLogin']")
+    @FindBy(xpath = BUTTON)
     private WebElement submitButton;
-    @FindBy(xpath = BASE)
-    private WebElement loginPage;
+    @FindBy(xpath = LOG_ON_BY_DOMAIN)
+    private WebElement LogOnByDomain;
 
     public LoginPage() {
         super();
-        WebUtils.waitUntilElementVisible(loginPage);
+        WebUtils.waitUntilElementVisible(submitButton);
+    }
+
+    public LoginPage typeCompany(String company) {
+        loginCompany.sendKeys(company);
+        return this;
     }
 
     public LoginPage typeUserName(String userName) {
-//       driver.findElement(By.xpath(XP_LOGIN)).sendKeys(userName);
         loginInput.sendKeys(userName);
         return this;
     }
 
     public LoginPage typePassword(String password) {
-//        driver.findElement(By.xpath(XP_PASS)).sendKeys(password);
         passInput.sendKeys(password);
         return this;
     }
 
     public LoginPage clickLogButton() {
-//        driver.findElement(By.xpath(XP_BUTTON)).submit();
-        clickElement(submitButton);
+//        clickElement(submitButton);
+        submitButton.click();
         return this;
     }
 
-    public MyAccountPage userLogin() {
-        typeUserName(LogIn.USER_NAME.getConst());
+    public LoginPage turnOffLogOnByDomain() {
+        if (LogOnByDomain.isSelected()) {
+            LogOnByDomain.click();
+        }
+        return this;
+    }
+
+    public MainPage userLogin() {
+        turnOffLogOnByDomain();
+        typeCompany(LogIn.COMPANY.getConst());
+        typeUserName(LogIn.USER_ID.getConst());
         typePassword(LogIn.PASSWORD.getConst());
         clickLogButton();
-        return Factory.initPage(MyAccountPage.class);
+        return Factory.initPage(MainPage.class);
     }
+
 }

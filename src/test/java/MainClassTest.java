@@ -12,7 +12,7 @@ public class MainClassTest extends BaseTest {
 
         MainPage mainPage = Factory.initPage(MainPage.class)
                 .goToLoginPage()
-//                .userLogin()
+                .userLogin()
 //                .gotoMainPage()
 //                .search(Const.REQUEST.getConst())
 //                .getResultSearch()

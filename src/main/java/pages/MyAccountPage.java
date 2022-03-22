@@ -14,7 +14,7 @@ public class MyAccountPage extends BasePage {
 
     public MyAccountPage() {
         super();
-        WebUtils.waitUntilElementVisible(homeButton);
+//        WebUtils.waitUntilElementVisible(homeButton);
     }
 
 

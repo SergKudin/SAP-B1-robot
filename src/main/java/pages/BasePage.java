@@ -13,16 +13,35 @@ import utils.WebUtils;
 public class BasePage {
     protected WebDriver driver = WebDriverManager.getDriver();
     protected final Logger logger;
-    private static final String HOME_LOGO = "//a[@id='headerLogo']";
+    //    private static final String HOME_LOGO = "//a[@id='headerLogo']";
+    private static final String STOCKS = "//a[@id='tree-3072-0_anchor']";
+    private static final String DIRECTORY_OF_GOODS_AND_SERVICES = "//a[@id='tree-3073-0_anchor']";
 
-    @FindBy(xpath = HOME_LOGO)
-    WebElement homeButton;
+    //    @FindBy(xpath = HOME_LOGO)
+//    WebElement homeButton;
+    @FindBy(xpath = STOCKS)
+    WebElement stocks;
+    @FindBy(xpath = DIRECTORY_OF_GOODS_AND_SERVICES)
+    WebElement DirectoryOfGoodsAndServices;
 
     public BasePage() {
         PageFactory.initElements(driver, this);
         logger = LoggerFactory.getLogger(this.getClass());
         waitUntilPageIsLoaded();
 
+    }
+
+    public BasePage clickStocks() {
+//        clickElement(submitButton);
+        WebUtils.waitUntilElementVisible(stocks);
+        stocks.click();
+        return this;
+    }
+    public BasePage clickDirectoryOfGAS() {
+//        clickElement(submitButton);
+        WebUtils.waitUntilElementVisible(DirectoryOfGoodsAndServices);
+        DirectoryOfGoodsAndServices.click();
+        return this;
     }
 
     public void waitUntilPageIsLoaded() {
@@ -76,8 +95,9 @@ public class BasePage {
     }
 
     public MainPage gotoMainPage() {
-        clickElement(homeButton);
+//        clickElement(homeButton);
+        clickStocks();
+        clickDirectoryOfGAS();
         return Factory.initPage(MainPage.class);
-//        return new MainPage();
     }
 }

@@ -22,7 +22,7 @@ public class SearchPage extends BasePage {
 
     public SearchPage() {
         super();
-        WebUtils.waitUntilElementVisible(homeButton);
+//        WebUtils.waitUntilElementVisible(homeButton);
     }
 
     public SearchPage getResultSearchPage() {

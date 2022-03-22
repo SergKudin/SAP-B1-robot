@@ -16,7 +16,7 @@ public class MainPage  extends BasePage {
 
     private static final String LOGIN_PAGE = "//a[@id='topLoginLink']";
     private static final String SEARCH = "//input[@id='headerSearch']";
-    private static final String BUTTON_SEARCH = "//input[@id='submit-searchmain']";
+    private static final String BUTTON_SEARCH = "//input[@id='logon_sbo_btn']";
 
     @FindBy(xpath = LOGIN_PAGE)
     private WebElement loginPage;
@@ -27,12 +27,11 @@ public class MainPage  extends BasePage {
 
     public MainPage() {
         super();
-        WebUtils.waitUntilElementVisible(homeButton);
+//        WebUtils.waitUntilElementVisible(homeButton);
     }
 
     public LoginPage goToLoginPage() {
-        clickElement(loginPage);
-//        driver.findElement(By.xpath(xpLoginPage)).click();
+//        clickElement(loginPage);
         return Factory.initPage(LoginPage.class);
     }
 
