@@ -1,7 +1,6 @@
 import org.testng.annotations.Test;
 import pages.MainPage;
-import pages.Pagination;
-import pages.SearchPage;
+import utils.Const;
 import utils.Factory;
 import utils.Logger;
 
@@ -12,13 +11,13 @@ public class MainClassTest extends BaseTest {
         Logger.logInfo("Start Test1");
 
         MainPage mainPage = Factory.initPage(MainPage.class)
-//                .goToLoginPage()
+                .goToLoginPage()
 //                .userLogin()
 //                .gotoMainPage()
-                .search(request)
-                .getResultSearch()
-                .getData()
-                .dateSaveToFile()
+//                .search(Const.REQUEST.getConst())
+//                .getResultSearch()
+//                .getData()
+//                .dateSaveToFile()
                 .gotoMainPage();
 
 //        Pagination pagination = new Pagination();

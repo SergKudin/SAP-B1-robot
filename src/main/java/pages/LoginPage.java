@@ -3,11 +3,11 @@ package pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import utils.Credentialable;
 import utils.Factory;
+import utils.LogIn;
 import utils.WebUtils;
 
-public class LoginPage extends BasePage implements Credentialable {
+public class LoginPage extends BasePage {
 
     private static final String BASE = "//section[@class='login-page has-animation']";
     private static final String LOGIN = BASE + "//input[@id='userEmail']";
@@ -46,8 +46,8 @@ public class LoginPage extends BasePage implements Credentialable {
     }
 
     public MyAccountPage userLogin() {
-        typeUserName(userName);
-        typePassword(password);
+        typeUserName(LogIn.USER_NAME.getConst());
+        typePassword(LogIn.PASSWORD.getConst());
         clickLogButton();
         return Factory.initPage(MyAccountPage.class);
     }

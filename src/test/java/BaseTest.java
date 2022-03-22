@@ -3,12 +3,11 @@ import org.openqa.selenium.WebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import utils.Const;
 import utils.Logger;
 
 public class BaseTest {
 
-    protected static String Address = "https://www.olx.ua";//"https://www.olx.ua/";
-    protected static String request = "ткань для тафтинга";  //ткань для тафтинга
     protected WebDriver driver;
 
     @BeforeClass
@@ -20,7 +19,7 @@ public class BaseTest {
     @BeforeMethod
     public void setUp() {
         Logger.logInfo("Start BeforeMethod");
-        driver.get(Address);
+        driver.get(Const.SITE.getConst());
     }
 
 

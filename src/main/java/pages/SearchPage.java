@@ -11,7 +11,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SearchPage extends BasePage implements Credentialable {
+public class SearchPage extends BasePage {
 
     private static final String SEARCH_RESULTS_TITLE = "//td[@class='title-cell ']";
     private static final String SEARCH_RESULTS_PRICE = "//td[@class='wwnormal tright td-price']";

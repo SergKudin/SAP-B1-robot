@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainPage  extends BasePage implements Credentialable {
+public class MainPage  extends BasePage {
 
     private static final String LOGIN_PAGE = "//a[@id='topLoginLink']";
     private static final String SEARCH = "//input[@id='headerSearch']";
