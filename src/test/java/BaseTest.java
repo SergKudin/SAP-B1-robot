@@ -26,6 +26,6 @@ public class BaseTest {
     @AfterMethod
     public void tearDown() {
         Logger.logInfo("Start AfterMethod");
-        driver.quit();
+//        driver.quit();
     }
 }

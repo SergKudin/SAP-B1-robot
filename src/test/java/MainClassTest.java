@@ -1,6 +1,5 @@
 import org.testng.annotations.Test;
 import pages.MainPage;
-import utils.Const;
 import utils.Factory;
 import utils.Logger;
 
@@ -13,6 +12,9 @@ public class MainClassTest extends BaseTest {
         MainPage mainPage = Factory.initPage(MainPage.class)
                 .goToLoginPage()
                 .userLogin()
+                .openWindowItemMasterData()
+                .typeItemNoAndFind("1FK2102-0AG00-0MA0")
+                .optionUomGroup("штука")
 //                .gotoMainPage()
 //                .search(Const.REQUEST.getConst())
 //                .getResultSearch()
