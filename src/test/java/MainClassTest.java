@@ -17,6 +17,7 @@ public class MainClassTest extends BaseTest {
                 .optionUomGroup("штука")
                 .optionUomGroupPurchasingData("шт.")
                 .optionUomGroupSalesData("шт.")
+                .findItemNo()
 
                 .gotoMainPage();
 

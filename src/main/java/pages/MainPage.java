@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.*;
@@ -32,6 +33,14 @@ public class MainPage  extends BasePage {
     }
 
     public LoginPage goToLoginPage() {
+        if (driver.findElement(By.xpath("//div[@id='main-message']")).isDisplayed()) {
+            driver.findElement(By.xpath("//button[@id='details-button']")).click();
+            driver.findElement(By.xpath("//a[@id='proceed-link']")).click();
+        }
+        if (driver.findElement(By.xpath("//div[@id='main-message']")).isDisplayed()) {
+            driver.findElement(By.xpath("//button[@id='details-button']")).click();
+            driver.findElement(By.xpath("//a[@id='proceed-link']")).click();
+        }
 //        clickElement(loginPage);
         return Factory.initPage(LoginPage.class);
     }

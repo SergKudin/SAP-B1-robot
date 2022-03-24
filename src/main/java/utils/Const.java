@@ -2,7 +2,6 @@ package utils;
 
 public enum Const {
     SITE ("https://192.168.0.63:8100/dispatcher"),
-    REQUEST ("ткань для тафтинга"),
 ;
 
      private String info;
