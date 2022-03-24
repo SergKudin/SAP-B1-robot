@@ -15,11 +15,9 @@ public class MainClassTest extends BaseTest {
                 .openWindowItemMasterData()
                 .typeItemNoAndFind("1FK2102-0AG00-0MA0")
                 .optionUomGroup("штука")
-//                .gotoMainPage()
-//                .search(Const.REQUEST.getConst())
-//                .getResultSearch()
-//                .getData()
-//                .dateSaveToFile()
+                .optionUomGroupPurchasingData("шт.")
+                .optionUomGroupSalesData("шт.")
+
                 .gotoMainPage();
 
 //        Pagination pagination = new Pagination();

@@ -44,7 +44,7 @@ public class SaveToFileXLSX {
 
     public void saveDateToFileXLSX(ArrayList<ResultSearch> ListResultSearch, String nameFile) throws IOException {
         XSSFWorkbook workbook = new XSSFWorkbook();
-        XSSFSheet sheet = workbook.createSheet("OLX");
+        XSSFSheet sheet = workbook.createSheet("DataSheet");
         CreationHelper createHelper = workbook.getCreationHelper();
         XSSFCellStyle hLinkStyle = workbook.createCellStyle();
         XSSFFont hLinkFont = workbook.createFont();
@@ -103,6 +103,9 @@ public class SaveToFileXLSX {
             // Ссылка (D)
             cell = row.createCell(3, CellType.STRING);
             cell.setCellValue(news.getLink());
+        }
+        for (int i = 0; i < 5; i++) {
+            sheet.autoSizeColumn(i);
         }
         File file = new File(nameFile + ".xlsx");
 //        file.getParentFile().mkdirs();
