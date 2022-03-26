@@ -12,8 +12,8 @@ import utils.WebUtils;
 public class BasePage {
     protected WebDriver driver = WebDriverManager.getDriver();
     protected final Logger logger;
-String MainWindow;
-String ItemMasterDataWindow;
+    String MainWindow;
+    String ItemMasterDataWindow;
 
     public BasePage() {
         PageFactory.initElements(driver, this);
@@ -26,49 +26,7 @@ String ItemMasterDataWindow;
         WebUtils.waitUntilPageIsLoaded();
     }
 
-    public void clickElement(WebElement element) {
-        StringBuilder log = new StringBuilder("Click " + WebUtils.getLocator(element));
-        WebUtils.scrollToElement(element);
-        WebUtils.pause(100);
-        boolean isPrevClickedWasSuccessful = false;
-        try {
-            element.click();
-            isPrevClickedWasSuccessful = true;
-        } catch (Exception exSimple) {
-            log.append("; Simple click failed; ");
-        }
-        if (!isPrevClickedWasSuccessful) {
-            try {
-                log.append("Try click by Actions; ");
-                WebUtils.clickActions(element);
-                log.append("Click by Actions successful.");
-                isPrevClickedWasSuccessful = true;
-            } catch (Exception exActions) {
-                log.append("Click by Actions failed; ");
-            }
-        }
-        if (!isPrevClickedWasSuccessful) {
-            try {
-                log.append("Try click by JS; ");
-                WebUtils.clickJs(element);
-                log.append("Click by JS successful.");
-                isPrevClickedWasSuccessful = true;
-            } catch (Exception exJx) {
-                log.append("Click by JS failed; ");
-            }
-        }
-        if (!isPrevClickedWasSuccessful) {
-            try {
-                log.append("Try complex click; ");
-                WebUtils.complexClick(element);
-                log.append("Complex click successful.");
-            } catch (Exception exComplex) {
-                log.append("Click failed.");
-                logger.info(log.toString());
-                throw new RuntimeException("click element '" + element + "' failed");
-            }
-        }
-        logger.info(log.toString());
-        WebUtils.pause(100);
+    public void clickElement(WebElement e) {
+        WebUtils.clickElement(e);
     }
 }

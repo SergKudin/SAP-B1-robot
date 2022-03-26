@@ -1,10 +1,9 @@
 
 package pages;
 
-import akka.Main;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import utils.Factory;
+import utils.Pages;
 import utils.LogIn;
 import utils.WebUtils;
 
@@ -66,7 +65,7 @@ public class LoginPage extends BasePage {
         typeUserName(LogIn.USER_ID.getConst());
         typePassword(LogIn.PASSWORD.getConst());
         clickLogButton();
-        return Factory.initPage(MainPage.class);
+        return Pages.initPage(MainPage.class);
     }
 
 }

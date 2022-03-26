@@ -1,6 +1,5 @@
 package utils;
 
-import core.Timeouts;
 import core.WebDriverManager;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
@@ -17,21 +16,39 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 
 public class WebUtils {
     private static WebDriver driver = WebDriverManager.getDriver();
     private static JavascriptExecutor jse = (JavascriptExecutor) driver;
     private static final Logger logger = LoggerFactory.getLogger(WebUtils.class);
 
+    public static Logger getLog() {
+        return logger;
+    }
+
     public static void setDriver(WebDriver d) {
         driver = d;
         jse = (JavascriptExecutor) driver;
     }
 
-    public static boolean isElementPresent(String path) {
-        //https://stackoverflow.com/questions/12270092/best-way-to-check-that-element-is-not-present-using-selenium-webdriver-with-java
-        List<WebElement> ec = driver.findElements(By.xpath(path));
-        return ec.size() > 0;
+//    public static boolean isElementPresent(String path) {
+//        //https://stackoverflow.com/questions/12270092/best-way-to-check-that-element-is-not-present-using-selenium-webdriver-with-java
+//        List<WebElement> ec = driver.findElements(By.xpath(path));
+//        return ec.size() > 0;
+//    }
+
+    public static boolean isElementPresent(WebElement e) {
+        //does not work for invisible elements. use isElementPresent(String xpath)
+        try {
+            return e.isDisplayed();
+        } catch (Exception ex) {
+            return false;
+        }
+    }
+
+    public static boolean isElementPresent(String xpath) {
+        return !driver().findElements(By.xpath(xpath)).isEmpty();
     }
 
     public static WebElement getElement(String path) {
@@ -123,4 +140,97 @@ public class WebUtils {
         wait.until(ExpectedConditions.visibilityOf(e));
         return e;
     }
+
+    public static WebDriver driver() {
+        return driver;
+    }
+
+    public static void waitUntil(String message, Callable<Boolean> c) {
+        waitUntil(message, c, Timeouts.AFTER_CLICK);
+    }
+
+    public static void waitUntil(String message, Callable<Boolean> c, int timeout) {
+        FluentWait<WebDriver> wait = new WebDriverWait(driver(), timeout).withMessage(message);
+        wait.until(driver -> {
+            try {
+                return c.call();
+            } catch (Exception ignored) {
+                return false;
+            }
+        });
+    }
+
+    public static void waitNotStrict(String message, Callable<Boolean> c, int timeout) {
+        try {
+            waitUntil(message, c, timeout);
+        } catch (Exception e) {
+            logger.info(message);
+        }
+    }
+
+//    public static WebElement getElement(String xpath) {
+//        List<WebElement> asList = getElements(xpath);
+//        if (asList.isEmpty())
+//            throw new NoSuchElementException(Messages.noSuchElement(xpath));
+//        return getElements(xpath).get(0);
+//    }
+
+    public static List<WebElement> getElements(String xpath) {
+        return driver().findElements(By.xpath(xpath));
+    }
+
+    public static WebElement getElementUnder(WebElement e, String xpath) {
+        return getElementsUnder(e, xpath).get(0);
+    }
+
+    public static List<WebElement> getElementsUnder(WebElement e, String xpath) {
+        return e.findElements(By.xpath("." + xpath));
+    }
+
+    public static void clickElement(WebElement element) {
+        StringBuilder log = new StringBuilder("Click " + WebUtils.getLocator(element));
+        WebUtils.scrollToElement(element);
+        WebUtils.pause(100);
+        boolean isPrevClickedWasSuccessful = false;
+        try {
+            element.click();
+            isPrevClickedWasSuccessful = true;
+        } catch (Exception exSimple) {
+            log.append("; Simple click failed; ");
+        }
+        if (!isPrevClickedWasSuccessful) {
+            try {
+                log.append("Try click by Actions; ");
+                WebUtils.clickActions(element);
+                log.append("Click by Actions successful.");
+                isPrevClickedWasSuccessful = true;
+            } catch (Exception exActions) {
+                log.append("Click by Actions failed; ");
+            }
+        }
+        if (!isPrevClickedWasSuccessful) {
+            try {
+                log.append("Try click by JS; ");
+                WebUtils.clickJs(element);
+                log.append("Click by JS successful.");
+                isPrevClickedWasSuccessful = true;
+            } catch (Exception exJx) {
+                log.append("Click by JS failed; ");
+            }
+        }
+        if (!isPrevClickedWasSuccessful) {
+            try {
+                log.append("Try complex click; ");
+                WebUtils.complexClick(element);
+                log.append("Complex click successful.");
+            } catch (Exception exComplex) {
+                log.append("Click failed.");
+                logger.info(log.toString());
+                throw new RuntimeException("click element '" + element + "' failed");
+            }
+        }
+        logger.info(log.toString());
+        WebUtils.pause(100);
+    }
+
 }

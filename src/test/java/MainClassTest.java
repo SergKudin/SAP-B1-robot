@@ -1,7 +1,6 @@
 import org.testng.annotations.Test;
 import pages.MainPage;
-import utils.Factory;
-import utils.Logger;
+import utils.*;
 
 public class MainClassTest extends BaseTest {
 
@@ -9,7 +8,7 @@ public class MainClassTest extends BaseTest {
     public void Test1() {
         Logger.logInfo("Start Test1");
 
-        MainPage mainPage = Factory.initPage(MainPage.class)
+        MainPage mainPage = Pages.initPage(MainPage.class)
                 .goToLoginPage()
                 .userLogin()
                 .openWindowItemMasterData()
@@ -17,7 +16,7 @@ public class MainClassTest extends BaseTest {
                 .optionUomGroup("штука")
                 .optionUomGroupPurchasingData("шт.")
                 .optionUomGroupSalesData("шт.")
-                .findItemNo()
+//                .findItemNo()
 
                 .gotoMainPage();
 
@@ -32,6 +31,23 @@ public class MainClassTest extends BaseTest {
 //        Logger.logInfo("" + pagination.isCurrentPage(1));
 //        Logger.logInfo("" + pagination.isCurrentPage(2));
 //        Logger.logErr("finished");
+
+    }
+
+    @Test
+    public void debug() {
+        Logger.logInfo("debug start");
+
+        Pages.initPage(MainPage.class)
+                .goToLoginPage()
+                .userLogin()
+                .openWindowItemMasterData()
+                .typeItemNoAndFind("1FK2102-0AG00-0MA0")
+                .openTab("Закупки");
+        TextInputs.byLabel("Код ЕИ закупок")
+                        .setValue("шт.");
+        System.out.println();
+
 
     }
 }

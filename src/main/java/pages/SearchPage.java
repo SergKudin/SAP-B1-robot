@@ -42,7 +42,7 @@ public class SearchPage extends BasePage {
             Link = ResultLink.get(i).getAttribute("href");
             ListResultSearch.add(new ResultSearch(NameLot, Price, Link));
         }
-        return Factory.initPage(SearchPage.class);
+        return Pages.initPage(SearchPage.class);
     }
 
     public SearchPage getResultSearch() {
@@ -56,7 +56,7 @@ public class SearchPage extends BasePage {
             }
         } catch (NoSuchElementException e) {
         }
-        return Factory.initPage(SearchPage.class);
+        return Pages.initPage(SearchPage.class);
     }
 
     private String dateSave() {
@@ -106,12 +106,12 @@ public class SearchPage extends BasePage {
         Logger.logInfo("Sum of prices: " + getSumPrice() + " грн.");
         Logger.logInfo("Average prices: " + getAveragePrice() + " грн.");
         Logger.logInfo("Number of results: " + getSizePrice());
-        return Factory.initPage(SearchPage.class);
+        return Pages.initPage(SearchPage.class);
     }
 
     public SearchPage dateSaveToFile() {
         Logger.logInfo(dateSave());
-        return Factory.initPage(SearchPage.class);
+        return Pages.initPage(SearchPage.class);
     }
 
 }

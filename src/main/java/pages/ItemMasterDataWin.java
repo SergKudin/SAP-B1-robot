@@ -1,19 +1,22 @@
 package pages;
 
-import org.openqa.selenium.By;
+import utils.Timeouts;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import utils.Factory;
+import pages.blocks.Tabs;
+import utils.Pages;
 import utils.Logger;
 import utils.WebUtils;
 import org.openqa.selenium.support.ui.Select;
+
+import java.util.List;
 
 public class ItemMasterDataWin extends BasePage {
 
     Pagination pagination = new Pagination();
 
-
+    //   //label[text()='Код ЕИ закупок']/following-sibling::select[1] - универсальный xPath для заголовка
     private static final String BUTTON_OK = "//button[@class='c1']";
     private static final String FIND = "//a[@title='Найти']";
     private static final String FIND_ITEM_No = "//input[@class='c5']";
@@ -79,52 +82,63 @@ public class ItemMasterDataWin extends BasePage {
     }
 
     public ItemMasterDataWin optionUomGroup(String textGroup) {
-        System.out.println(selectUoM_Group.getAttribute("value"));
-        System.out.println(textGroup);
-        if (selectUoM_Group.getText().equals(textGroup)) {
+        WebUtils.waitUntilElementVisible(selectUoM_GroupLabel);
+        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_UPLOAD);
+        String groupLabel = selectUoM_GroupLabel.getAttribute("innerHTML");
+        if (groupLabel.equals(textGroup)) {
             Logger.logInfo("UoM Group read = UoM Group set");
         } else {
             Logger.logInfo("UoM Group read NO EQUALS UoM Group set");
             Select selectUomGroup = new Select(selectUoM_Group);
             selectUomGroup.selectByVisibleText(textGroup);
-            WebUtils.pause(100);
-            if (uom_Group.isDisplayed()) {
-                uom_Group.sendKeys(Keys.ENTER);
-            }
+            WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+            uom_Group.sendKeys(Keys.ENTER);
         }
         return this;
     }
 
     public ItemMasterDataWin optionUomGroupPurchasingData(String textGroup) {
         purchasingData.click();
-        Logger.logInfo("Purchasing UoM Group read = " + purchasingUomCode.getText());
+        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+//        Logger.logInfo("Purchasing UoM Group read = " + purchasingUomCode.getAttribute("innerHTML"));
+        purchasingUomCode.clear();
         purchasingUomCode.sendKeys(textGroup);
         purchasingUomCode.sendKeys(Keys.ENTER);
-        Logger.logInfo("Purchasing UoM Group set = " + textGroup + "; Purchasing UoM Group read = " + purchasingUomCode.getText());
-        if (purchasingUomCode.getText().equals(textGroup)) {
-            Logger.logInfo("Purchasing UoM Group read = Purchasing UoM Group set");
-        }
-
+//        Logger.logInfo("Purchasing UoM Group set = " + textGroup + "; Purchasing UoM Group read = " + purchasingUomCode.getText());
+//        if (purchasingUomCode.getAttribute("innerHTML").equals(textGroup)) {
+//            Logger.logInfo("Purchasing UoM Group read = Purchasing UoM Group set");
+//        }
         return this;
     }
 
     public ItemMasterDataWin optionUomGroupSalesData(String textGroup) {
         salesData.click();
-        Logger.logInfo("Sales UoM Group read = " + salesUomCode.getText());
+        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+//        Logger.logInfo("Sales UoM Group read = " + salesUomCode.getAttribute("innerHTML"));
+        salesUomCode.clear();
         salesUomCode.sendKeys(textGroup);
         salesUomCode.sendKeys(Keys.ENTER);
-        Logger.logInfo("Sales UoM Group set = " + textGroup + "; Sales UoM Group read = " + salesUomCode.getText());
-        if (salesUomCode.getText().equals(textGroup)) {
-            Logger.logInfo("Sales UoM Group read = Sales UoM Group set");
-        }
-
+//        Logger.logInfo("Sales UoM Group set = " + textGroup + "; Sales UoM Group read = " + salesUomCode.getAttribute("innerHTML"));
+//        if (salesUomCode.getAttribute("innerHTML").equals(textGroup)) {
+//            Logger.logInfo("Sales UoM Group read = Sales UoM Group set");
+//        }
         return this;
+    }
+
+    @FindBy(xpath = "//a[contains(@class, 'tab')]")
+    List<WebElement> tabs;
+    private final String TAB_BY_LABEL = "//div[contains(@class, 'tabheader') and @title='%s']";
+
+    public Tabs openTab(String name) {
+        clickElement(WebUtils.getElement(String.format(TAB_BY_LABEL, name)));
+        waitUntilPageIsLoaded();
+        return Pages.initPage(Tabs.class);
     }
 
     public MainPage gotoMainPage() {
 //        driver.switchTo().window(MainWindow);
 
-        return Factory.initPage(MainPage.class);
+        return Pages.initPage(MainPage.class);
     }
 
 

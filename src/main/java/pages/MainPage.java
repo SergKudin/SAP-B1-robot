@@ -42,7 +42,7 @@ public class MainPage  extends BasePage {
             driver.findElement(By.xpath("//a[@id='proceed-link']")).click();
         }
 //        clickElement(loginPage);
-        return Factory.initPage(LoginPage.class);
+        return Pages.initPage(LoginPage.class);
     }
 
     public SearchPage search(String request) {
@@ -84,12 +84,12 @@ public class MainPage  extends BasePage {
             driver.switchTo().window(windowHandle);
         }
         ItemMasterDataWindow = driver.getWindowHandle();
-        return Factory.initPage(ItemMasterDataWin.class);
+        return Pages.initPage(ItemMasterDataWin.class);
     }
 
     public MainPage gotoMainPage() {
 //        clickElement(homeButton);
-        return Factory.initPage(MainPage.class);
+        return Pages.initPage(MainPage.class);
     }
 
 }
