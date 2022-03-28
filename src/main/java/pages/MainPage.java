@@ -5,7 +5,9 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.*;
 
-public class MainPage  extends BasePage {
+import java.io.IOException;
+
+public class MainPage extends BasePage {
 
     private static final String LOGIN_PAGE = "//a[@id='topLoginLink']";
     private static final String SEARCH = "//input[@id='headerSearch']";
@@ -60,12 +62,14 @@ public class MainPage  extends BasePage {
         stock.click();
         return this;
     }
+
     public MainPage clickItemMasterData() {
 //        clickElement(submitButton);
         WebUtils.waitUntilElementVisible(ItemMasterData);
         ItemMasterData.click();
         return this;
     }
+
     public MainPage closeWindowLog() {
         waitUntilPageIsLoaded();
         WebUtils.waitUntilElementVisible(windowLogClose);
@@ -77,10 +81,16 @@ public class MainPage  extends BasePage {
 
     public ItemMasterDataWin openWindowItemMasterData() {
 //        clickElement(homeButton);
-
+        try {
+            ReadFileXLSX readFileXLSX = new ReadFileXLSX("Data.xlsx");
+            readFileXLSX.readToList();
+            Logger.logInfo("Data.xlsx - rows = " + readFileXLSX.sizeList().toString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         MainWindow = driver.getWindowHandle();
         closeWindowLog().clickStocks().clickItemMasterData();
-        for (String windowHandle: driver.getWindowHandles()) {
+        for (String windowHandle : driver.getWindowHandles()) {
             driver.switchTo().window(windowHandle);
         }
         ItemMasterDataWindow = driver.getWindowHandle();

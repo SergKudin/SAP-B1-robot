@@ -20,31 +20,19 @@ public class MainClassTest extends BaseTest {
 
                 .gotoMainPage();
 
-//        Pagination pagination = new Pagination();
-//        Logger.logInfo("" + pagination.isCurrentPage(1));
-//        pagination.goToPageByIndex(1)
-//                .goPrevPage()
-//                .goNextPage()
-//                .goToPageByIndex(2)
-//                .goLastPage()
-//                .goFirstPage();
-//        Logger.logInfo("" + pagination.isCurrentPage(1));
-//        Logger.logInfo("" + pagination.isCurrentPage(2));
-//        Logger.logErr("finished");
 
     }
 
     @Test
     public void debug() {
         Logger.logInfo("debug start");
-
         Pages.initPage(MainPage.class)
                 .goToLoginPage()
                 .userLogin()
                 .openWindowItemMasterData()
                 .typeItemNoAndFind("1FK2102-0AG00-0MA0")
                 .openTab("Закупки");
-        TextInputs.byLabel("Код ЕИ закупок")
+        TextInputs.byLabel("Название ЕИ закупок")
                         .setValue("шт.");
         System.out.println();
 

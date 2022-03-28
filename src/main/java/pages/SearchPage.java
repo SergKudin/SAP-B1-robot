@@ -71,7 +71,7 @@ public class SearchPage extends BasePage {
             status = "Saving data to file '" + nameFile + "': OK";
 
 //Chek
-            ReadFileXLSX ReadFile = new ReadFileXLSX(nameFile);
+            ReadFileXLSX ReadFile = new ReadFileXLSX("Data.xlsx");
             ReadFile.readToList();
 
         } catch (IOException e) {
