@@ -4,8 +4,10 @@ package pages;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.Pages;
-import utils.LogIn;
+import utils.ReadFile;
 import utils.WebUtils;
+
+import java.io.IOException;
 
 public class LoginPage extends BasePage {
 
@@ -60,10 +62,12 @@ public class LoginPage extends BasePage {
     }
 
     public MainPage userLogin() {
+        ReadFile readFile =new ReadFile();
+        readFile.ReadFileToList();
         turnOffLogOnByDomain();
-        typeCompany(LogIn.COMPANY.getConst());
-        typeUserName(LogIn.USER_ID.getConst());
-        typePassword(LogIn.PASSWORD.getConst());
+        typeCompany(readFile.getData(0));
+        typeUserName(readFile.getData(1));
+        typePassword(readFile.getData(2));
         clickLogButton();
         return Pages.initPage(MainPage.class);
     }

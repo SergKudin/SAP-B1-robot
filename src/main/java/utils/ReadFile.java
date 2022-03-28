@@ -11,9 +11,9 @@ public class ReadFile {
     private ArrayList<String> listDataFile = new ArrayList<>();
 
 
-    public ReadFile ReadFileToList(String Name) {
-        String fileName = Name + ".txt";
-        try (BufferedReader br = Files.newBufferedReader(Paths.get(fileName))) {
+    public ReadFile ReadFileToList() {
+//        String fileName = PathAndName;
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("C:\\jdk\\Project\\StartDate\\Sap B1 Robot.txt"))) {
 //            String str;
             listDataFile = (ArrayList<String>) br.lines().collect(Collectors.toList());
 //            Logger.logInfo(listDataFile.get(0));
@@ -26,7 +26,7 @@ public class ReadFile {
         return this;
     }
 
-    public String getStringDataFile(Integer n) {
+    public String getData(Integer n) {
         return listDataFile.get(n);
     }
 
