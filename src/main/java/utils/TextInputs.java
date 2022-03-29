@@ -104,6 +104,7 @@ public class TextInputs {
     }
 
     public TextInputs sendEnter() {
+        WebUtils.pause(Timeouts.CLICK_TIMEOUT);
         input.sendKeys(Keys.ENTER);
         return this;
     }

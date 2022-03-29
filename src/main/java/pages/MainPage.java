@@ -5,23 +5,12 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.*;
 
-import java.io.IOException;
-
 public class MainPage extends BasePage {
 
-    private static final String LOGIN_PAGE = "//a[@id='topLoginLink']";
-    private static final String SEARCH = "//input[@id='headerSearch']";
-    private static final String BUTTON_SEARCH = "//input[@id='logon_sbo_btn']";
     private static final String STOCK = "//a[@id='tree-3072-0_anchor']";
     private static final String ITEM_MASTER_DATA = "//a[@id='tree-3073-0_anchor']";
     private static final String BUTTON_WINDOW_LOG_CLOSE = "//div[@aria-labelledby='ui-id-12']//button[@title='Close']";
 
-    @FindBy(xpath = LOGIN_PAGE)
-    private WebElement loginPage;
-    @FindBy(xpath = SEARCH)
-    private WebElement search;
-    @FindBy(xpath = BUTTON_SEARCH)
-    private WebElement buttonSearch;
     @FindBy(xpath = STOCK)
     WebElement stock;
     @FindBy(xpath = ITEM_MASTER_DATA)
@@ -45,15 +34,6 @@ public class MainPage extends BasePage {
         }
 //        clickElement(loginPage);
         return Pages.initPage(LoginPage.class);
-    }
-
-    public SearchPage search(String request) {
-        Logger.logInfo("Search: " + request);
-//        driver.findElement(By.xpath(xpSearch)).sendKeys(request);
-//        driver.findElement(By.xpath(xpButtonSearch)).submit();
-        search.sendKeys(request);
-        buttonSearch.submit();
-        return new SearchPage(); //return Factory.initPage(SearchPage.class);
     }
 
     public MainPage clickStocks() {
@@ -80,14 +60,6 @@ public class MainPage extends BasePage {
     }
 
     public ItemMasterDataWin openWindowItemMasterData() {
-//        try {
-//            ReadFileXLSX readFileXLSX = new ReadFileXLSX("Data.xlsx");
-//            readFileXLSX.readToList();
-//            Logger.logInfo("Data.xlsx - rows = " + readFileXLSX.sizeList().toString());
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//        readDataFile();
         MainWindow = driver.getWindowHandle();
         closeWindowLog().clickStocks().clickItemMasterData();
         for (String windowHandle : driver.getWindowHandles()) {
