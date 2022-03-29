@@ -32,6 +32,14 @@ public class WebUtils {
         jse = (JavascriptExecutor) driver;
     }
 
+    public static JavascriptExecutor js() {
+        return (JavascriptExecutor) driver();
+    }
+
+    public static WebDriver driver() {
+        return driver;
+    }
+
 //    public static boolean isElementPresent(String path) {
 //        //https://stackoverflow.com/questions/12270092/best-way-to-check-that-element-is-not-present-using-selenium-webdriver-with-java
 //        List<WebElement> ec = driver.findElements(By.xpath(path));
@@ -113,9 +121,24 @@ public class WebUtils {
     }
 
     public static void waitUntilPageIsLoaded() {
-        WebDriverWait wait = new WebDriverWait(driver, Timeouts.PAGE_LOADING_TIMEOUT);
-        wait.until(driver ->
-                ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
+        FluentWait<WebDriver> wait = new WebDriverWait(driver(), Timeouts.PAGE_LOADING)
+                .withMessage("Page was not loaded in " + Timeouts.PAGE_LOADING)
+                .ignoring(StaleElementReferenceException.class);
+        wait.until(d -> js().executeScript("return document.readyState").equals("complete")
+                && driver().findElements(By.xpath("//div[@class = 'loading-anim']")).stream().noneMatch(WebElement::isDisplayed));
+//        WebDriverWait wait = new WebDriverWait(driver, Timeouts.PAGE_LOADING_TIMEOUT);
+//        wait.until(driver ->
+//                ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
+    }
+
+
+
+    public static void waitUntilPageIsLoaded2() {
+        FluentWait<WebDriver> wait = new WebDriverWait(driver(), Timeouts.PAGE_LOADING)
+                .withMessage("Page was not loaded in " + Timeouts.PAGE_LOADING)
+                .ignoring(StaleElementReferenceException.class);
+        wait.until(d -> js().executeScript("return document.readyState").equals("complete")
+                && driver().findElements(By.xpath("//div[@class = 'loading-anim']")).stream().noneMatch(WebElement::isDisplayed));
     }
 
     public static void saveScreen(String fileName) {
@@ -139,10 +162,6 @@ public class WebUtils {
                 .ignoring(StaleElementReferenceException.class);
         wait.until(ExpectedConditions.visibilityOf(e));
         return e;
-    }
-
-    public static WebDriver driver() {
-        return driver;
     }
 
     public static void waitUntil(String message, Callable<Boolean> c) {
@@ -231,6 +250,19 @@ public class WebUtils {
         }
         logger.info(log.toString());
         WebUtils.pause(100);
+    }
+
+    public static Object doSafety(Callable<Object> c) {
+        Object res = null;
+        try {
+            res = c.call();
+        } catch (Exception ignored) {
+            utils.Logger.logInfo("callable failure");
+        }
+        /*искать сообщение "не найдено"
+        если нашел, то передернуть стр и выполнить еще раз res = c.call()
+         */
+       return res;
     }
 
 }

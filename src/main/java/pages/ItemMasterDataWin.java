@@ -1,13 +1,10 @@
 package pages;
 
-import utils.Timeouts;
+import utils.*;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import pages.blocks.Tabs;
-import utils.Pages;
-import utils.Logger;
-import utils.WebUtils;
 import org.openqa.selenium.support.ui.Select;
 
 import java.util.List;
@@ -15,6 +12,12 @@ import java.util.List;
 public class ItemMasterDataWin extends BasePage {
 
     Pagination pagination = new Pagination();
+    private static final Integer COLLUM_1 = 0;   //Код
+    private static final Integer COLLUM_2 = 1;   //Группа ЕИ
+    private static final Integer COLLUM_3 = 2;   //Код ЕИ закупок
+    private static final Integer COLLUM_4 = 3;   //Код ЕИ продажи
+    private static final Integer COLLUM_5 = 4;   //Status
+
 
     //   //label[text()='Код ЕИ закупок']/following-sibling::select[1] - универсальный xPath для заголовка
     private static final String BUTTON_OK = "//button[@class='c1']";
@@ -77,7 +80,6 @@ public class ItemMasterDataWin extends BasePage {
         findItemNo.sendKeys(textFind);
         findItemNo.sendKeys(Keys.ENTER);
         Logger.logInfo("ItemNo set = " + textFind + "; ItemNo read = " + findItemNo.getText());
-
         return this;
     }
 
@@ -141,5 +143,80 @@ public class ItemMasterDataWin extends BasePage {
         return Pages.initPage(MainPage.class);
     }
 
+    private Boolean setCode(String label, String value) {
+        try {
+            Logger.logInfo(value);
+            WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+            return TextInputs.byLabel(label).setValue(value).sendEnter().textEquals(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Boolean setUomGroup(String label, String value) {
+        Logger.logInfo(value);
+        try {
+            return value.equals(DropDowns.byLabel(label).open().set(value).getCurrentValue());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    private Boolean setTabUomGroup(String labelTab, String label, String value) {
+        Logger.logInfo(value);
+        try {
+        openTab(labelTab);
+        return TextInputs.byLabel(label, 1).putValue(value).sendEnter().textEquals(value);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public ItemMasterDataWin dataSet() {
+        readDataFile();
+
+        for (int row = 1; row <= readFileXLSX.sizeRows(); row++) {
+            Logger.logInfo("Row No=" + row);
+            Boolean dataSetOk = true;
+            dataSetOk = dataSetOk && setCode("Код", readFileXLSX.getData(row, COLLUM_1));
+            WebUtils.pause(Timeouts.ITEM_MASTER_DATE_UPLOAD);
+//            Logger.logInfo(readFileXLSX.getData(row, COLLUM_1));
+//            TextInputs.byLabel("Код")
+//                    .setValue(readFileXLSX.getData(row, COLLUM_1))
+//                    .sendEnter();
+            dataSetOk = dataSetOk && setUomGroup("Группа ЕИ", readFileXLSX.getData(row, COLLUM_2));
+            WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+//            Logger.logInfo(
+//                    DropDowns
+//                            .byLabel("Группа ЕИ")
+//                            .open()
+//                            .set(readFileXLSX.getData(row, COLLUM_2))
+//                            .getCurrentValue());
+            dataSetOk = dataSetOk && setTabUomGroup("Закупки", "Код ЕИ закупок", readFileXLSX.getData(row, COLLUM_3));
+            WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+//            openTab("Закупки");
+//            Logger.logInfo(readFileXLSX.getData(row, COLLUM_3));
+//            TextInputs.byLabel("Код ЕИ закупок", 1)
+//                    .setValue(readFileXLSX.getData(row, COLLUM_3))
+//                    .sendEnter();
+            dataSetOk = dataSetOk && setTabUomGroup("Продажи", "Код ЕИ продажи", readFileXLSX.getData(row, COLLUM_4));
+            WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+//            Logger.logInfo(readFileXLSX.getData(row, COLLUM_4));
+//            openTab("Продажи");
+//            TextInputs.byLabel("Код ЕИ продажи", 1)
+//                    .setValue(readFileXLSX.getData(row, COLLUM_4))
+//                    .sendEnter();
+//            Buttons.byLabel("Найти").clickIt();
+            Logger.logInfo("setting data for card " + readFileXLSX.getData(row, COLLUM_1) + " is OK = " + dataSetOk);
+            readFileXLSX.setStatus(dataSetOk, row, COLLUM_5);
+            Buttons.byLabel("Найти").clickIt();
+            WebUtils.waitUntilPageIsLoaded();
+            WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+        }
+        return this;
+    }
 
 }

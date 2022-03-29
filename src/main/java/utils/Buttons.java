@@ -57,5 +57,11 @@ public class Buttons {
     public void clickIt() {
         WebUtils.waitUntil(Messages.ELEMENT_NOT_CLICKABLE, input::isEnabled);
         WebUtils.clickElement(input);
+        if (Modals.isOpened()) {
+            Modals.clickButton("Да");
+        }
+        if (Modals.isOpened()) {
+            Modals.clickButton("OK");
+        }
     }
 }

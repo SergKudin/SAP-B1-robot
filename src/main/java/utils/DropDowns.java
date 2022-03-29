@@ -28,7 +28,6 @@ public class DropDowns {
 
     public DropDowns set(String option) {
         open();
-
         selectOption(option);
         checkOptionApplied();
         WebUtils.waitUntilPageIsLoaded();

@@ -80,14 +80,14 @@ public class MainPage extends BasePage {
     }
 
     public ItemMasterDataWin openWindowItemMasterData() {
-//        clickElement(homeButton);
-        try {
-            ReadFileXLSX readFileXLSX = new ReadFileXLSX("Data.xlsx");
-            readFileXLSX.readToList();
-            Logger.logInfo("Data.xlsx - rows = " + readFileXLSX.sizeList().toString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            ReadFileXLSX readFileXLSX = new ReadFileXLSX("Data.xlsx");
+//            readFileXLSX.readToList();
+//            Logger.logInfo("Data.xlsx - rows = " + readFileXLSX.sizeList().toString());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        readDataFile();
         MainWindow = driver.getWindowHandle();
         closeWindowLog().clickStocks().clickItemMasterData();
         for (String windowHandle : driver.getWindowHandles()) {

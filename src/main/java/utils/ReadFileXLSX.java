@@ -2,6 +2,7 @@ package utils;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.File;
@@ -15,29 +16,31 @@ public class ReadFileXLSX {
 
     private String fileName;
 
-    public ReadFileXLSX(String fileName) throws IOException {
+    public ReadFileXLSX(String fileName) {
         this.fileName = fileName;
     }
 
-    private ArrayList<String> newItemMasterDate = new ArrayList<String>(4);
-    private ArrayList<ArrayList<String>> listDataFile = new ArrayList<ArrayList<String>>();
+    ArrayList<ArrayList<String>> listDataFile = new ArrayList<ArrayList<String>>();
 
-
-//    public ReadFileXLSX setFileName(String fileName) {
-//        FileName = fileName;
-//        return this;
-//    }
-
-    public void readToList() throws IOException {
-        FileInputStream inputStream = new FileInputStream(new File(fileName));
-        XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
-        Iterator<Row> rowIterator = workbook.getSheetAt(0).iterator();
-        while (rowIterator.hasNext()) {
-            listDataFile.add(readRows(rowIterator.next().cellIterator()));
+    public ArrayList<ArrayList<String>> readToList() {
+        try {
+            FileInputStream inputStream = new FileInputStream(new File(fileName));
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFRow row;
+            Iterator<Row> rowIterator = workbook.getSheetAt(0).iterator();
+            while (rowIterator.hasNext()) {
+                row = (XSSFRow) rowIterator.next();
+                Iterator<Cell> cellIterator = row.cellIterator();
+                listDataFile.add(readRows(cellIterator));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return listDataFile;
     }
 
     private ArrayList<String> readRows(Iterator<Cell> cellIterator) {
+        ArrayList<String> newItemMasterDate = new ArrayList<String>(5);
         while (cellIterator.hasNext()) {
             Cell cell = cellIterator.next();
             newItemMasterDate.add(cell.getStringCellValue());
@@ -45,7 +48,16 @@ public class ReadFileXLSX {
         return newItemMasterDate;
     }
 
-    public String getData(Integer nRow, Integer nCollum){return listDataFile.get(nRow).get(nCollum);}
+    public void setStatus (Boolean status, Integer nRow, Integer nCollum) {
+        ArrayList<String> ItemMasterDate = new ArrayList<String>(5);
+        ItemMasterDate.addAll(listDataFile.get(nRow));
+        ItemMasterDate.add(status.toString());
+        listDataFile.set(nRow, ItemMasterDate);
+    }
 
-    public Integer sizeList() {return listDataFile.size();}
+    public String getData(Integer nRow, Integer nCollum) {return listDataFile.get(nRow).get(nCollum);}
+
+    public Integer sizeRows() {return listDataFile.size();}
+
+    public Integer sizeCollum() {return listDataFile.get(0).size();}
 }

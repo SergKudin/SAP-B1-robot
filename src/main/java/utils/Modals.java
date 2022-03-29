@@ -20,7 +20,9 @@ public class Modals {
         try {
             Buttons.byLabel(buttonName).clickIt();
         } catch (Exception ignored) {
-            Buttons.byPath(String.format(Path.ANY_BY_TEXT, buttonName)).clickIt();
+            Buttons
+                    .byPath(String.format(Path.ANY_BY_TEXT, buttonName))
+                    .clickIt();
         }
     }
 

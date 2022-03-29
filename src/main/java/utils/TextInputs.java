@@ -13,13 +13,24 @@ public class TextInputs {
 
     private interface Path {
         String WRAPPER_BY_LABEL_INPUT = "//label[text()='%s']/preceding-sibling::input[1]";
+        String WRAPPER_BY_LABEL_INPUT2 = "//label[text()='%s']/following-sibling::input[1]";
     }
 
     public static TextInputs byLabel(String label) {
-        try{
+        WebUtils.waitUntilPageIsLoaded();
+        try {
             return byPath(String.format(Path.WRAPPER_BY_LABEL_INPUT, label));
         } catch (Exception ignored) {
             throw new RuntimeException(Messages.noSuchElement(String.format(Path.WRAPPER_BY_LABEL_INPUT, label)));
+        }
+    }
+
+    public static TextInputs byLabel(String label, Integer n) {
+        WebUtils.waitUntilPageIsLoaded();
+        try {
+            return byPath(String.format(Path.WRAPPER_BY_LABEL_INPUT2, label));
+        } catch (Exception ignored) {
+            throw new RuntimeException(Messages.noSuchElement(String.format(Path.WRAPPER_BY_LABEL_INPUT2, label)));
         }
     }
 
@@ -32,6 +43,7 @@ public class TextInputs {
     }
 
     public TextInputs setValue(String text) {
+        input.click();
         putValue(text);
         WebUtils.waitNotStrict(Messages.TEXT_FIELD_VALUE_WAS_NOT_APPLIED, () -> getValue().equals(text), Timeouts.TEXT_TYPE);
         if (!getValue().equals(text)) {
@@ -48,11 +60,13 @@ public class TextInputs {
         if (!isClean()) {
             clearField();
         }
+//        input.click();
         input.sendKeys(text);
         return this;
     }
 
     private void typeByChar(String text) {
+//        input.click();
         char[] asArr = text.toCharArray();
         for (char currentChar : asArr) {
             input.sendKeys(currentChar + "");
@@ -76,11 +90,21 @@ public class TextInputs {
         return input.getAttribute("value");
     }
 
+    public Boolean textEquals(String text) {
+        return getValue().equals(text);
+    }
+
     private TextInputs clearField() {
         WebUtils.waitUntil("Input not available for typing", () -> input.isDisplayed() && input.isEnabled());
-        input.sendKeys(Keys.CONTROL + "a");
+//        input.sendKeys(Keys.CONTROL + "a");
+        input.click();
         input.sendKeys(Keys.BACK_SPACE);
         WebUtils.waitUntil("Field was not cleaned", this::isClean);
+        return this;
+    }
+
+    public TextInputs sendEnter() {
+        input.sendKeys(Keys.ENTER);
         return this;
     }
 }

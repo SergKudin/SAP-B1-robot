@@ -1,4 +1,5 @@
 import org.testng.annotations.Test;
+import pages.LoginPage;
 import pages.MainPage;
 import utils.*;
 
@@ -30,11 +31,12 @@ public class MainClassTest extends BaseTest {
                 .goToLoginPage()
                 .userLogin()
                 .openWindowItemMasterData()
-                .typeItemNoAndFind("1FK2102-0AG00-0MA0")
-                .openTab("Закупки");
-        TextInputs.byLabel("Название ЕИ закупок")
-                        .setValue("шт.");
-        System.out.println();
+                .dataSet();
+//                .typeItemNoAndFind("1FK2102-0AG00-0MA0")
+//                .openTab("Закупки");
+//        TextInputs.byLabel("Название ЕИ закупок")
+//                        .setValue("шт.");
+//        System.out.println();
 
 
     }
