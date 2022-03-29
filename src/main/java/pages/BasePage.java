@@ -6,8 +6,7 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import utils.ReadFileXLSX;
-import utils.WebUtils;
+import utils.*;
 
 import java.util.ArrayList;
 

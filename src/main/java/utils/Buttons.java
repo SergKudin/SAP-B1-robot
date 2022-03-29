@@ -35,6 +35,15 @@ public class Buttons {
         return new Buttons(element);
     }
 
+    public static void modalsOpened () {
+        if (Modals.isOpened()) {
+            Modals.clickButton("Да");
+        }
+        if (Modals.isOpened()) {
+            Modals.clickButton("OK");
+        }
+    }
+
     public static void close() {
         List<WebElement> xButtons = WebUtils.getElements(X_BUTTON).stream().filter(WebElement::isDisplayed).collect(Collectors.toList());
         if (xButtons.size() != 1)
@@ -42,6 +51,7 @@ public class Buttons {
         WebElement xButton = xButtons.get(0);
         WebUtils.waitUntil(Messages.ELEMENT_NOT_CLICKABLE, xButton::isEnabled);
         WebUtils.clickElement(xButton);
+        modalsOpened ();
     }
 
     public static void close(WebElement e) {
@@ -51,18 +61,13 @@ public class Buttons {
         WebElement xButton = xButtons.get(0);
         WebUtils.waitUntil(Messages.ELEMENT_NOT_CLICKABLE, xButton::isEnabled);
         WebUtils.clickElement(xButton);
-
+        modalsOpened();
     }
 
     public void clickIt() {
         WebUtils.waitUntil(Messages.ELEMENT_NOT_CLICKABLE, input::isEnabled);
         WebUtils.clickElement(input);
         WebUtils.pause(Timeouts.ITEM_MASTER_DATE_UPLOAD);
-        if (Modals.isOpened()) {
-            Modals.clickButton("Да");
-        }
-        if (Modals.isOpened()) {
-            Modals.clickButton("OK");
-        }
+        modalsOpened();
     }
 }

@@ -5,6 +5,7 @@ import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.*;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -13,7 +14,7 @@ public class SaveToFileXLSX {
 
     private Object Exception;
 
-    public SaveToFileXLSX() throws IOException {
+    public SaveToFileXLSX() {
     }
 
     private static XSSFCellStyle createStyleForTitle(XSSFWorkbook workbook) {
@@ -40,6 +41,34 @@ public class SaveToFileXLSX {
         XSSFCellStyle style = workbook.createCellStyle();
         style.setFont(font);
         return style;
+    }
+
+    public void setCellToFileXLSX(Boolean data, Integer nRow, Integer nCollum) {
+        setCellToFileXLSX(data, "Data.xlsx", nRow, nCollum);
+    }
+
+    public void setCellToFileXLSX(Boolean data, String nameFile, Integer nRow, Integer nCollum) {
+        try {
+            FileInputStream inputStream = new FileInputStream(nameFile);
+            XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
+            XSSFSheet sheet = workbook.getSheetAt(0);
+            XSSFCellStyle style;
+            XSSFRow row = sheet.getRow(nRow);
+            if (data) {
+                style = createStyleForTextGrin(workbook);
+            } else {
+                style = createStyleForTextRed(workbook);
+            }
+            XSSFCell cell = row.createCell( nCollum, CellType.STRING);
+            cell.setCellValue(data);
+            cell.setCellStyle(style);
+            inputStream.close();
+            FileOutputStream out = new FileOutputStream(nameFile);
+            workbook.write(out);
+            out.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public void saveDateToFileXLSX(ArrayList<ResultSearch> ListResultSearch, String nameFile) throws IOException {

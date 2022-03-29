@@ -11,6 +11,7 @@ import java.util.List;
 
 public class ItemMasterDataWin extends BasePage {
 
+    SaveToFileXLSX saveFileXLSX = new SaveToFileXLSX();
     Pagination pagination = new Pagination();
     private static final Integer COLLUM_1 = 0;   //Код
     private static final Integer COLLUM_2 = 1;   //Группа ЕИ
@@ -167,8 +168,8 @@ public class ItemMasterDataWin extends BasePage {
     private Boolean setTabUomGroup(String labelTab, String label, String value) {
         Logger.logInfo(value);
         try {
-        openTab(labelTab);
-        return TextInputs.byLabel(label, 1).putValue(value).sendEnter().textEquals(value);
+            openTab(labelTab);
+            return TextInputs.byLabel(label, 1).putValue(value).sendEnter().textEquals(value);
         } catch (Exception e) {
             e.printStackTrace();
             return false;
@@ -183,36 +184,18 @@ public class ItemMasterDataWin extends BasePage {
             Boolean dataSetOk = true;
             dataSetOk = dataSetOk && setCode("Код", readFileXLSX.getData(row, COLLUM_1));
             WebUtils.pause(Timeouts.ITEM_MASTER_DATE_UPLOAD);
-//            Logger.logInfo(readFileXLSX.getData(row, COLLUM_1));
-//            TextInputs.byLabel("Код")
-//                    .setValue(readFileXLSX.getData(row, COLLUM_1))
-//                    .sendEnter();
             dataSetOk = dataSetOk && setUomGroup("Группа ЕИ", readFileXLSX.getData(row, COLLUM_2));
             WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
-//            Logger.logInfo(
-//                    DropDowns
-//                            .byLabel("Группа ЕИ")
-//                            .open()
-//                            .set(readFileXLSX.getData(row, COLLUM_2))
-//                            .getCurrentValue());
             dataSetOk = dataSetOk && setTabUomGroup("Закупки", "Код ЕИ закупок", readFileXLSX.getData(row, COLLUM_3));
             WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
-//            openTab("Закупки");
-//            Logger.logInfo(readFileXLSX.getData(row, COLLUM_3));
-//            TextInputs.byLabel("Код ЕИ закупок", 1)
-//                    .setValue(readFileXLSX.getData(row, COLLUM_3))
-//                    .sendEnter();
             dataSetOk = dataSetOk && setTabUomGroup("Продажи", "Код ЕИ продажи", readFileXLSX.getData(row, COLLUM_4));
             WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
-//            Logger.logInfo(readFileXLSX.getData(row, COLLUM_4));
-//            openTab("Продажи");
-//            TextInputs.byLabel("Код ЕИ продажи", 1)
-//                    .setValue(readFileXLSX.getData(row, COLLUM_4))
-//                    .sendEnter();
-//            Buttons.byLabel("Найти").clickIt();
             Logger.logInfo("setting data for card " + readFileXLSX.getData(row, COLLUM_1) + " is OK = " + dataSetOk);
-            readFileXLSX.setStatus(dataSetOk, row, COLLUM_5);
-            Buttons.byLabel("Найти").clickIt();
+//            readFileXLSX.setStatus(dataSetOk, row, COLLUM_5);
+            saveFileXLSX.setCellToFileXLSX(dataSetOk, row, COLLUM_5);
+            Buttons.close();
+            Pages.initPage(MainPage.class).clickItemMasterData();
+//            Buttons.byLabel("Найти").clickIt();
             WebUtils.waitUntilPageIsLoaded();
             WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
         }
