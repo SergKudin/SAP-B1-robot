@@ -3,18 +3,16 @@ package pages;
 
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
-import utils.Pages;
-import utils.ReadFile;
-import utils.WebUtils;
+import utils.*;
 
 import java.io.IOException;
 
 public class LoginPage extends BasePage {
 
-//    private static final String BASE = "//section[@class='login-page has-animation']";
+    //    private static final String BASE = "//section[@class='login-page has-animation']";
     private static final String COMPANY = "//input[@id='sbo_custom_company']";
     private static final String LOGIN = "//input[@id='sbo_user']";
-    private static final String PASS =  "//input[@id='sbo_password']";
+    private static final String PASS = "//input[@id='sbo_password']";
     private static final String BUTTON = "//input[@id='logon_sbo_btn']";
     private static final String LOG_ON_BY_DOMAIN = "//input[@id='logon_by_domain']";
     @FindBy(xpath = COMPANY)
@@ -51,6 +49,12 @@ public class LoginPage extends BasePage {
     public LoginPage clickLogButton() {
 //        clickElement(submitButton);
         submitButton.click();
+        if (Modals.isOpened()) {
+            Modals.clickButton("Да");
+        }
+        if (Modals.isOpened()) {
+            Modals.clickButton("OK");
+        }
         return this;
     }
 
@@ -62,7 +66,7 @@ public class LoginPage extends BasePage {
     }
 
     public MainPage userLogin() {
-        ReadFile readFile =new ReadFile();
+        ReadFile readFile = new ReadFile();
         readFile.ReadFileToList();
         turnOffLogOnByDomain();
         typeCompany(readFile.getData(0));

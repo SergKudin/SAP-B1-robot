@@ -57,6 +57,7 @@ public class Buttons {
     public void clickIt() {
         WebUtils.waitUntil(Messages.ELEMENT_NOT_CLICKABLE, input::isEnabled);
         WebUtils.clickElement(input);
+        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_UPLOAD);
         if (Modals.isOpened()) {
             Modals.clickButton("Да");
         }

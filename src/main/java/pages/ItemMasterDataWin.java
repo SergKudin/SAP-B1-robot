@@ -178,7 +178,7 @@ public class ItemMasterDataWin extends BasePage {
     public ItemMasterDataWin dataSet() {
         readDataFile();
 
-        for (int row = 1; row <= readFileXLSX.sizeRows(); row++) {
+        for (int row = 1; row < readFileXLSX.sizeRows(); row++) {
             Logger.logInfo("Row No=" + row);
             Boolean dataSetOk = true;
             dataSetOk = dataSetOk && setCode("Код", readFileXLSX.getData(row, COLLUM_1));
