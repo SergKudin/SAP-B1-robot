@@ -45,6 +45,7 @@ public class Buttons {
     }
 
     public static void close() {
+        try {
         List<WebElement> xButtons = WebUtils.getElements(X_BUTTON).stream().filter(WebElement::isDisplayed).collect(Collectors.toList());
         if (xButtons.size() != 1)
             throw new RuntimeException(CANT_DEFINE);
@@ -52,6 +53,9 @@ public class Buttons {
         WebUtils.waitUntil(Messages.ELEMENT_NOT_CLICKABLE, xButton::isEnabled);
         WebUtils.clickElement(xButton);
         modalsOpened ();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void close(WebElement e) {

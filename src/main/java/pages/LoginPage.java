@@ -66,7 +66,6 @@ public class LoginPage extends BasePage {
     }
 
     public MainPage userLogin() {
-        ReadFile readFile = new ReadFile();
         readFile.ReadFileToList();
         turnOffLogOnByDomain();
         typeCompany(readFile.getData(0));

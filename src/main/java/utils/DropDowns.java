@@ -9,7 +9,11 @@ public class DropDowns {
 
     private DropDowns(String label) {
         this.label = label;
-        input = WebUtils.getElement(String.format(Path.WRAPPER_BY_LABEL_INPUT, label));
+//        try {
+            input = WebUtils.getElement(String.format(Path.WRAPPER_BY_LABEL_INPUT, label));
+//        } catch (Exception ignored) {
+//            throw new RuntimeException(Messages.noSuchElement(String.format(Path.WRAPPER_BY_LABEL_INPUT2, label)));
+//        }
     }
 
     private WebElement input;
@@ -18,6 +22,7 @@ public class DropDowns {
 
     private interface Path {
         String WRAPPER_BY_LABEL_INPUT = "//label[text()='%s']/following-sibling::select[1]";
+        String WRAPPER_BY_LABEL_INPUT2 = "//*[text()='%s']/..";
         String OPTIONS = WRAPPER_BY_LABEL_INPUT + "//option";
         String VALUE = WRAPPER_BY_LABEL_INPUT + "/following-sibling::label[1]";
     }

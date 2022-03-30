@@ -12,22 +12,25 @@ public class ReadFile {
 
 
     public ReadFile ReadFileToList() {
-//        String fileName = PathAndName;
         try (BufferedReader br = Files.newBufferedReader(Paths.get("C:\\jdk\\Project\\StartDate\\Sap B1 Robot.txt"))) {
-//            String str;
             listDataFile = (ArrayList<String>) br.lines().collect(Collectors.toList());
-//            Logger.logInfo(listDataFile.get(0));
-//            Logger.logInfo(listDataFile.get(1));
-//            Logger.logInfo(listDataFile.get(2));
         } catch (IOException e) {
             e.printStackTrace();
         }
-//        return listDataFile;
         return this;
+    }
+
+    public Integer ReadFileData() {
+        Integer data = 1;
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("ADS.csv"))) {
+           data = Integer.valueOf(br.lines().collect(Collectors.toList()).get(0));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return data;
     }
 
     public String getData(Integer n) {
         return listDataFile.get(n);
     }
-
 }

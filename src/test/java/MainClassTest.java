@@ -1,4 +1,6 @@
+import core.WebDriverManager;
 import org.testng.annotations.Test;
+import pages.ItemMasterDataWin;
 import pages.MainPage;
 import utils.*;
 
@@ -12,10 +14,11 @@ public class MainClassTest extends BaseTest {
                 .goToLoginPage()
                 .userLogin()
                 .openWindowItemMasterData()
-                .typeItemNoAndFind("1FK2102-0AG00-0MA0")
-                .optionUomGroup("штука")
-                .optionUomGroupPurchasingData("шт.")
-                .optionUomGroupSalesData("шт.")
+                .logOut()
+//                .typeItemNoAndFind("1FK2102-0AG00-0MA0")
+//                .optionUomGroup("штука")
+//                .optionUomGroupPurchasingData("шт.")
+//                .optionUomGroupSalesData("шт.")
 //                .findItemNo()
 
                 .gotoMainPage();
@@ -26,10 +29,21 @@ public class MainClassTest extends BaseTest {
     @Test
     public void debug() {
         Logger.logInfo("debug start");
-        Pages.initPage(MainPage.class)
-                .goToLoginPage()
-                .userLogin()
-                .openWindowItemMasterData()
-                .dataSet();
+//        do {
+//            try {
+                readFileXLSX = Pages.initPage(ItemMasterDataWin.class).readDataFile();
+                currentRow = Pages.initPage(ItemMasterDataWin.class).readStatusFile();
+                Pages.initPage(MainPage.class)
+                        .goToLoginPage()
+                        .userLogin()
+                        .openWindowItemMasterData()
+                        .dataSet(readFileXLSX, currentRow);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                //               driver.close();
+//                //              driver = WebDriverManager.getDriver();
+//                //             driver.get(Const.SITE.getConst());
+//            }
+//        } while (currentRow == readFileXLSX.sizeRows());
     }
 }

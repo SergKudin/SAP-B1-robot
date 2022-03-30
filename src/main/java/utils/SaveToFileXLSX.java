@@ -59,8 +59,8 @@ public class SaveToFileXLSX {
             } else {
                 style = createStyleForTextRed(workbook);
             }
-            XSSFCell cell = row.createCell( nCollum, CellType.STRING);
-            cell.setCellValue(data);
+            XSSFCell cell = row.getCell( nCollum);
+//            cell.setCellValue(data);
             cell.setCellStyle(style);
             inputStream.close();
             FileOutputStream out = new FileOutputStream(nameFile);

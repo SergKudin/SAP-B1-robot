@@ -5,10 +5,13 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import utils.Const;
 import utils.Logger;
+import utils.ReadFileXLSX;
 
 public class BaseTest {
 
     protected WebDriver driver;
+    public ReadFileXLSX readFileXLSX;
+    public Integer currentRow;
 
     @BeforeClass
     public void BeforeClassMethod() {
@@ -26,6 +29,6 @@ public class BaseTest {
     @AfterMethod
     public void tearDown() {
         Logger.logInfo("Start AfterMethod");
-//        driver.quit();
+        driver.quit();
     }
 }

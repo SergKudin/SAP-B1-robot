@@ -9,7 +9,7 @@ public class SaveToFileCSV {
     private Object Exception;
 
 
-    public SaveToFileCSV() throws IOException {
+    public SaveToFileCSV() {
     }
 
     public Object saveDateToFile(ArrayList<ResultSearch> ListResultSearch, String nameFile) {
@@ -35,8 +35,25 @@ public class SaveToFileCSV {
         }
         return Exception;
     }
+    public Object saveDateToFile(Integer dataSave, String nameFile) {
+        try {
+            FileOutputStream writer = new FileOutputStream(nameFile);
+                String s = dataSave + System.getProperty("line.separator");
+                writer.write(s.getBytes("Cp1251"));
+            writer.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+            Exception=e;
+        }
+        return Exception;
+    }
 
-}
+    public Object saveDateToFile(Integer dataSave) {
+        return saveDateToFile(dataSave, "ADS.csv");
+    }
+
+
+    }
 
 
 
