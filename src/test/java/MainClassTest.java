@@ -4,33 +4,33 @@ import pages.ItemMasterDataWin;
 import pages.MainPage;
 import utils.*;
 
-
 public class MainClassTest extends BaseTest {
 
 
     @Test(dataProvider = "javaCode")
     public void Test1(String n1) {
         Logger.logInfo(n1);
-        ReadFileXLSX readFileXLSX = Pages.initPage(ItemMasterDataWin.class).readDataFile();
-        Integer currentRow = Pages.initPage(ItemMasterDataWin.class).readStatusFile();
+        readFileXLSX = Pages.initPage(ItemMasterDataWin.class).readDataFile();
+        currentRow = Pages.initPage(ItemMasterDataWin.class).readStatusFile();
         Pages.initPage(MainPage.class)
-                .goToLoginPage()
-                .userLogin()
                 .openWindowItemMasterData()
                 .dataSet(readFileXLSX, currentRow);
+        Logger.logInfo("End " + n1);
     }
-
 
     @Test
     public void debug() {
         Logger.logInfo("debug start");
-        ReadFileXLSX readFileXLSX = Pages.initPage(ItemMasterDataWin.class).readDataFile();
-        Integer currentRow = Pages.initPage(ItemMasterDataWin.class).readStatusFile();
+        driver.get(Const.SITE.getConst());
+        readFileXLSX = Pages.initPage(ItemMasterDataWin.class).readDataFile();
+        currentRow = Pages.initPage(ItemMasterDataWin.class).readStatusFile();
+//        WebUtils.pause(180000);
         Pages.initPage(MainPage.class)
                 .goToLoginPage()
                 .userLogin()
                 .openWindowItemMasterData()
-                .dataSet(readFileXLSX, currentRow);
+                .dataSet(readFileXLSX, currentRow)
+        ;
     }
 
     @DataProvider(name = "javaCode")
@@ -38,15 +38,15 @@ public class MainClassTest extends BaseTest {
         return new Object[][]{
                 {"Test1"},
                 {"Test2"},
-                {"Test3"},
-                {"Test4"},
-                {"Test5"},
-                {"Test6"},
-                {"Test7"},
-                {"Test8"},
-                {"Test9"},
-                {"Test10"},
-                {"Test11"},
+//                {"Test3"},
+//                {"Test4"},
+//                {"Test5"},
+//                {"Test6"},
+//                {"Test7"},
+//                {"Test8"},
+//                {"Test9"},
+//                {"Test10"},
+//                {"Test11"},
                 {"Test12"}
         };
     }

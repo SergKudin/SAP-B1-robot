@@ -1,5 +1,6 @@
 package utils;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
@@ -73,5 +74,14 @@ public class Buttons {
         WebUtils.clickElement(input);
         WebUtils.pause(Timeouts.ITEM_MASTER_DATE_UPLOAD);
         modalsOpened();
+    }
+
+    public static void jsAlertOk(WebDriver driver){
+        try {
+            driver.switchTo().alert().accept();
+        } catch (Exception e) {
+//            e.printStackTrace();
+        }
+
     }
 }

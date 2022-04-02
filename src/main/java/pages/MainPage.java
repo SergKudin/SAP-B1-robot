@@ -1,6 +1,7 @@
 package pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.*;
@@ -32,19 +33,16 @@ public class MainPage extends BasePage {
             driver.findElement(By.xpath("//button[@id='details-button']")).click();
             driver.findElement(By.xpath("//a[@id='proceed-link']")).click();
         }
-//        clickElement(loginPage);
         return Pages.initPage(LoginPage.class);
     }
 
     public MainPage clickStocks() {
-//        clickElement(submitButton);
         WebUtils.waitUntilElementVisible(stock);
         stock.click();
         return this;
     }
 
     public MainPage clickItemMasterData() {
-//        clickElement(submitButton);
         WebUtils.waitUntilElementVisible(ItemMasterData);
         ItemMasterData.click();
         return this;
@@ -61,11 +59,11 @@ public class MainPage extends BasePage {
 
     public ItemMasterDataWin openWindowItemMasterData() {
         MainWindow = driver.getWindowHandle();
-        closeWindowLog().clickStocks().clickItemMasterData();
-        for (String windowHandle : driver.getWindowHandles()) {
-            driver.switchTo().window(windowHandle);
+        WebElement sysWin = driver.findElement(By.xpath("//button[@title = 'OK']"));
+        if (sysWin.isDisplayed()) {
+            sysWin.sendKeys(Keys.ENTER);
         }
-        ItemMasterDataWindow = driver.getWindowHandle();
+        closeWindowLog().clickStocks().clickItemMasterData();
         return Pages.initPage(ItemMasterDataWin.class);
     }
 

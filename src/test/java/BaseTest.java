@@ -4,10 +4,8 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import utils.Const;
-import utils.Logger;
-import utils.ReadFileXLSX;
-import utils.WebUtils;
+import pages.MainPage;
+import utils.*;
 
 import java.util.ArrayList;
 
@@ -20,31 +18,35 @@ public class BaseTest {
     @BeforeClass
     public void BeforeClassMethod() {
         Logger.logInfo("Start BeforeClass");
+        Logger.logInfo("Screenshots is Dir Empty:" + FileUtils.cleanScreenshots());
         driver = WebDriverManager.getDriver();
+        driver.get(Const.SITE.getConst());
+        Pages.initPage(MainPage.class)
+                .goToLoginPage()
+                .userLogin();
     }
 
     @BeforeMethod
     public void setUp() {
         Logger.logInfo("Start BeforeMethod");
-        ArrayList<String> tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(0));
-        ((JavascriptExecutor) driver).executeScript("window.open()");
-        tabs = new ArrayList<String>(driver.getWindowHandles());
-        driver.switchTo().window(tabs.get(1));
-        driver.get(Const.SITE.getConst());
     }
 
 
     @AfterMethod
     public void siteClose() {
         Logger.logInfo("Start AfterMethod");
-        WebUtils.pause(3000);
-        driver.close();
+        Logger.log("save screenshot",false,true);
+        driver.get("https://www.google.com/");
+        Buttons.jsAlertOk(driver);
+        WebUtils.pause(1000);
+        driver.get(Const.SITE.getConst());
+        Buttons.jsAlertOk(driver);
     }
 
     @AfterClass
     public void tearDown() {
         Logger.logInfo("Start AfterClass");
+        driver.quit();
     }
 
 }

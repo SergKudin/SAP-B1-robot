@@ -57,6 +57,8 @@ public class ReadFileXLSX {
 
     public String getData(Integer nRow, Integer nCollum) {return listDataFile.get(nRow).get(nCollum);}
 
+    public ArrayList<String> getRows(Integer nRow) {return listDataFile.get(nRow);}
+
     public Integer sizeRows() {return listDataFile.size();}
 
     public Integer sizeCollum() {return listDataFile.get(0).size();}

@@ -31,4 +31,6 @@ public class FileUtils {
         File dir = SCREENSHOTS_DIR_PATH.toFile();
         return dir.listFiles() != null && dir.listFiles().length > 0;
     }
+
+    public static Path getPathScreenshots () {return SCREENSHOTS_DIR_PATH;}
 }

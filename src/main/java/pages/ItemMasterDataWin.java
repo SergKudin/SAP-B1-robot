@@ -95,8 +95,9 @@ public class ItemMasterDataWin extends BasePage {
                 WebUtils.waitUntilPageIsLoaded();
                 WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
             } catch (Exception e) {
+                Logger.log("Error", true, true);
                 e.printStackTrace();
-                row--;
+//                row--;
                 saveDateToFile.saveDateToFile(row);
                 WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
                 Buttons.close();

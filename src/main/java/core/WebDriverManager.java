@@ -10,16 +10,13 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 import utils.FileUtils;
-import utils.Logger;
+import utils.Timeouts;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class WebDriverManager {
-    private static String PathDriver = "C:\\jdk\\Project\\Driver\\msedgedriver.exe";
-    private static String BrowserDriver = "webdriver.edge.driver";
-
     private static WebDriver driver;
     private static EdgeOptions options;
 
@@ -45,7 +42,8 @@ public class WebDriverManager {
                 ChromeOptions cOptions = new ChromeOptions()
                         .setExperimentalOption("prefs", preferences)
                         .addArguments("--start-maximized")
-                        .addArguments("--incognito");
+//                        .addArguments("--incognito")
+                        ;
                 driver = new ChromeDriver(cOptions);
                 break;
 
@@ -93,32 +91,16 @@ public class WebDriverManager {
                 break;
             default:
                 throw new IllegalArgumentException("Please specify valid browser name. Valid browser names are: firefox, chrome,chrome-headless, ie ,edge");
-
         }
-
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(60, TimeUnit.SECONDS);
-        driver.manage().timeouts().setScriptTimeout(60, TimeUnit.SECONDS);
-        return driver;
-    }
-
-    public static WebDriver getDriverOld() {
-        if (driver == null) driver = makeDriver();
+        driver.manage().timeouts().implicitlyWait(Timeouts.IMPLICITY_WAIT, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(Timeouts.PAGE_LOADING, TimeUnit.SECONDS);
+        driver.manage().timeouts().setScriptTimeout(Timeouts.SCRIPT_TIMEOUT, TimeUnit.SECONDS);
         return driver;
     }
 
     public static WebDriver getDriver() {
         String browser = System.getProperty("browser");
         if (driver == null) driver = setDriver(browser);
-        return driver;
-    }
-
-    private static WebDriver makeDriver() {
-        System.setProperty(BrowserDriver, PathDriver);
-        driver = new EdgeDriver(options);
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-//        driver.manage().window().maximize();
-        Logger.logInfo("Driver OK");
         return driver;
     }
 }

@@ -131,8 +131,6 @@ public class WebUtils {
 //                ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
     }
 
-
-
     public static void waitUntilPageIsLoaded2() {
         FluentWait<WebDriver> wait = new WebDriverWait(driver(), Timeouts.PAGE_LOADING)
                 .withMessage("Page was not loaded in " + Timeouts.PAGE_LOADING)

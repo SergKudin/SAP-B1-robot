@@ -2,6 +2,8 @@ package utils;
 
 public interface Timeouts {
     float FACTOR = 1.0f;
+    int IMPLICITY_WAIT = (int) (5*FACTOR);
+    int SCRIPT_TIMEOUT = (int) (60*FACTOR);
     int PAGE_LOADING = (int) (60 * FACTOR);
     int ELEMENT_VISIBILITY = (int) (15 * FACTOR);
     int CLICK = (int) (15 * FACTOR);
@@ -16,5 +18,6 @@ public interface Timeouts {
     public static final int ELEMENT_VISIBILITY_TIMEOUT = 20;
     public static final int ITEM_MASTER_DATE_UPLOAD = 3000;
     public static final int ITEM_MASTER_DATE_WINDOW_UPLOAD = 800;
+
 
 }
