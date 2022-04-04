@@ -8,6 +8,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 import java.util.ArrayList;
 
 public class SaveToFileXLSX {
@@ -43,6 +45,14 @@ public class SaveToFileXLSX {
         return style;
     }
 
+    private static XSSFCellStyle createStyleForTextBold(XSSFWorkbook workbook) {
+        XSSFFont font = workbook.createFont();
+        font.setBold(true);
+        XSSFCellStyle style = workbook.createCellStyle();
+        style.setFont(font);
+        return style;
+    }
+
     public void setCellToFileXLSX(Boolean data, Integer nRow, Integer nCollum) {
         setCellToFileXLSX(data, "Data.xlsx", nRow, nCollum);
     }
@@ -59,7 +69,7 @@ public class SaveToFileXLSX {
             } else {
                 style = createStyleForTextRed(workbook);
             }
-            XSSFCell cell = row.getCell( nCollum);
+            XSSFCell cell = row.getCell(nCollum);
 //            cell.setCellValue(data);
             cell.setCellStyle(style);
             inputStream.close();
@@ -138,12 +148,58 @@ public class SaveToFileXLSX {
         }
         File file = new File(nameFile + ".xlsx");
 //        file.getParentFile().mkdirs();
-
         FileOutputStream outFile = new FileOutputStream(file);
         workbook.write(outFile);
+        outFile.close();
         Logger.logInfo("Created file: " + file.getAbsolutePath());
 //        System.out.println("Created file: " + file.getAbsolutePath());
+    }
 
+    private Boolean save2ListToXLSX(ArrayList<ArrayList<String>> dataList, String nameSheet, String nameFile) {
+        XSSFWorkbook workbook = new XSSFWorkbook();
+        XSSFSheet sheet = workbook.createSheet(nameSheet);
+        XSSFCellStyle style = createStyleForTitle(workbook);
+        Row row;
+        Cell cell;
+        for (int nRows = 0; nRows < dataList.size(); nRows++) {
+            row = sheet.createRow(nRows);
+            ArrayList<String> dataRow = dataList.get(nRows);
+            for (int nCollum = 0; nCollum < dataRow.size(); nCollum++) {
+                cell = row.createCell(nCollum, CellType.STRING);
+                cell.setCellValue(dataRow.get(nCollum));
+                if (nRows == 0) {
+                    if (nCollum == dataRow.size()-1) {dataRow.set(dataRow.size()-1,"STATUS");};
+                    cell.setCellStyle(style);
+                }
+            }
+        }
+        for (int i = 0; i < dataList.get(0).size(); i++) {
+            sheet.autoSizeColumn(i);
+        }
+        try {
+            FileOutputStream outFile = new FileOutputStream(new File(nameFile + ".xlsx"));
+            workbook.write(outFile);
+            outFile.close();
+            Logger.logInfo("Created file: " + nameFile + ".xlsx");
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public Boolean saveListToXLSX(ArrayList<ArrayList<String>> dataList, String nameSheet, String nameFile) {
+        return save2ListToXLSX(dataList, nameSheet, nameFile);
+    }
+
+    public Boolean saveListToXLSX(ArrayList<ArrayList<String>> dataList, String nameFile) {
+        return save2ListToXLSX(dataList, "OutputData", nameFile);
+    }
+
+    public Boolean saveListToXLSX(ArrayList<ArrayList<String>> dataList) {
+        return save2ListToXLSX(dataList, "OutputData",
+                java.time.LocalDateTime.now().toString().substring(0,19)
+                        .replace(":",".").replace("T"," ") + " out");
     }
 
 }

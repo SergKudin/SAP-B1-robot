@@ -47,8 +47,8 @@ public final class Logger {
     }
 
     private static Boolean saveScreenshots(String fileName) {
-        File screenshots = ((TakesScreenshot) core.WebDriverManager.getDriver()).getScreenshotAs(OutputType.FILE);
         try {
+            File screenshots = ((TakesScreenshot) core.WebDriverManager.getDriver()).getScreenshotAs(OutputType.FILE);
             FileUtils.copyFile(screenshots, new File(utils.FileUtils.SCREENSHOTS_DIR_PATH + fileName + ".png"));
             return true;
         } catch (IOException e) {

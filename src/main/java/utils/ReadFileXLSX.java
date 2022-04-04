@@ -36,6 +36,7 @@ public class ReadFileXLSX {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        utils.Logger.logInfo("Data.xlsx - rows:collum = " + sizeRows() + ":" + sizeCollum());
         return listDataFile;
     }
 
@@ -45,21 +46,35 @@ public class ReadFileXLSX {
             Cell cell = cellIterator.next();
             newItemMasterDate.add(cell.getStringCellValue());
         }
+        try {newItemMasterDate.get(4);}catch (Exception e){
+            newItemMasterDate.set(4,false + "");}
         return newItemMasterDate;
     }
 
-    public void setStatus (Boolean status, Integer nRow, Integer nCollum) {
+    public void setStatus(Boolean status, Integer nRow, Integer nCollum) {
         ArrayList<String> ItemMasterDate = new ArrayList<String>(5);
         ItemMasterDate.addAll(listDataFile.get(nRow));
-        ItemMasterDate.add(status.toString());
+        ItemMasterDate.set(nCollum, status.toString());
         listDataFile.set(nRow, ItemMasterDate);
     }
 
-    public String getData(Integer nRow, Integer nCollum) {return listDataFile.get(nRow).get(nCollum);}
+    public String getData(Integer nRow, Integer nCollum) {
+        return listDataFile.get(nRow).get(nCollum);
+    }
 
-    public ArrayList<String> getRows(Integer nRow) {return listDataFile.get(nRow);}
+    public ArrayList<ArrayList<String>> getList () {
+        return listDataFile;
+    }
 
-    public Integer sizeRows() {return listDataFile.size();}
+    public ArrayList<String> getRows(Integer nRow) {
+        return listDataFile.get(nRow);
+    }
 
-    public Integer sizeCollum() {return listDataFile.get(0).size();}
+    public Integer sizeRows() {
+        return listDataFile.size();
+    }
+
+    public Integer sizeCollum() {
+        return listDataFile.get(0).size();
+    }
 }

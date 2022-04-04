@@ -18,7 +18,6 @@ public class BasePage {
     protected final Logger logger;
     String MainWindow;
     String ItemMasterDataWindow;
-    ReadFileXLSX readFileXLSX = new ReadFileXLSX("Data.xlsx");
     ReadFile readFile = new ReadFile();
 
     public BasePage() {

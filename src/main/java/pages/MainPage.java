@@ -63,7 +63,7 @@ public class MainPage extends BasePage {
         if (sysWin.isDisplayed()) {
             sysWin.sendKeys(Keys.ENTER);
         }
-        closeWindowLog().clickStocks().clickItemMasterData();
+        closeWindowLog().clickStocks();
         return Pages.initPage(ItemMasterDataWin.class);
     }
 

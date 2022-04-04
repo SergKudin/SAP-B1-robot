@@ -4,15 +4,15 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
+import pages.ItemMasterDataWin;
 import pages.MainPage;
 import utils.*;
 
 import java.util.ArrayList;
 
 public class BaseTest {
-
+    ReadFileXLSX readFileXLSX = new ReadFileXLSX("Data.xlsx");
     protected WebDriver driver;
-    public ReadFileXLSX readFileXLSX;
     public Integer currentRow;
 
     @BeforeClass
@@ -21,6 +21,7 @@ public class BaseTest {
         Logger.logInfo("Screenshots is Dir Empty:" + FileUtils.cleanScreenshots());
         driver = WebDriverManager.getDriver();
         driver.get(Const.SITE.getConst());
+        readFileXLSX.readToList();
         Pages.initPage(MainPage.class)
                 .goToLoginPage()
                 .userLogin();
@@ -35,18 +36,17 @@ public class BaseTest {
     @AfterMethod
     public void siteClose() {
         Logger.logInfo("Start AfterMethod");
-        Logger.log("save screenshot",false,true);
-        driver.get("https://www.google.com/");
-        Buttons.jsAlertOk(driver);
-        WebUtils.pause(1000);
-        driver.get(Const.SITE.getConst());
-        Buttons.jsAlertOk(driver);
     }
 
     @AfterClass
     public void tearDown() {
         Logger.logInfo("Start AfterClass");
+        SaveToFileXLSX save = new SaveToFileXLSX();
+        if (save.saveListToXLSX(readFileXLSX.getList(),"Data")) {
+            Logger.logInfo("Data save OK");
+        } else {
+            Logger.logErr("ERROR. Data not save");
+        }
         driver.quit();
     }
-
 }

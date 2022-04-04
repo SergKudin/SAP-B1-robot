@@ -16,6 +16,7 @@ public class ItemMasterDataWin extends BasePage {
     private static final Integer COLLUM_2 = 1;   //Группа ЕИ
     private static final Integer COLLUM_3 = 2;   //Код ЕИ закупок
     private static final Integer COLLUM_4 = 3;   //Код ЕИ продажи
+    private static final Integer COLLUM_5 = 4;   //Status
 
 
     //   //label[text()='Код ЕИ закупок']/following-sibling::select[1] - универсальный xPath для заголовка
@@ -41,13 +42,13 @@ public class ItemMasterDataWin extends BasePage {
 
         return Pages.initPage(MainPage.class);
     }
-
-    public ReadFileXLSX readDataFile() {
-        readFileXLSX.readToList();
-        utils.Logger.logInfo("Data.xlsx - rows:collum = "
-                + readFileXLSX.sizeRows() + ":" + readFileXLSX.sizeCollum());
-        return readFileXLSX;
-    }
+//
+//    public ReadFileXLSX readDataFile() {
+//        readFileXLSX.readToList();
+//        utils.Logger.logInfo("Data.xlsx - rows:collum = "
+//                + readFileXLSX.sizeRows() + ":" + readFileXLSX.sizeCollum());
+//        return readFileXLSX;
+//    }
 
     public Integer readStatusFile () {
        return readFile.ReadFileData();
@@ -70,41 +71,44 @@ public class ItemMasterDataWin extends BasePage {
         return TextInputs.byLabel(label, 1).putValue(value).sendEnter().textEquals(value);
     }
 
-    public ItemMasterDataWin dataSet(ReadFileXLSX readFileXLSX, Integer nRow) {
-        readDataFile();
+    private Boolean operation(ReadFileXLSX readFileXLSX,  Integer row) {
+        Boolean dataSetOk = true;
+        Pages.initPage(MainPage.class).clickItemMasterData();
+        WebUtils.waitUntilPageIsLoaded();
+        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+        dataSetOk = dataSetOk && setCode("Код", readFileXLSX.getData(row, COLLUM_1));
+        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_UPLOAD);
+        dataSetOk = dataSetOk && setUomGroup("Группа ЕИ", readFileXLSX.getData(row, COLLUM_2));
+        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+        dataSetOk = dataSetOk && setTabUomGroup("Продажи", "Код ЕИ продажи", readFileXLSX.getData(row, COLLUM_4));
+        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+        dataSetOk = dataSetOk && setTabUomGroup("Закупки", "Код ЕИ закупок", readFileXLSX.getData(row, COLLUM_3));
+        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+        Logger.logInfo("setting data for card " + readFileXLSX.getData(row, COLLUM_1) + " is OK = " + dataSetOk);
+        return dataSetOk;
+    }
 
-        for (int row = nRow; row < readFileXLSX.sizeRows(); row++) {
-            Logger.logInfo("Row No=" + row);
-            Boolean dataSetOk = true;
+    public ItemMasterDataWin dataSet(ReadFileXLSX readFileXLSX, Integer row) {
+//        readDataFile();
+        while (row < readFileXLSX.sizeRows()-1) {
+            row++;
+            Logger.logInfo("Row No=" + (row+1));
             try {
-                dataSetOk = dataSetOk && setCode("Код", readFileXLSX.getData(row, COLLUM_1));
-                WebUtils.pause(Timeouts.ITEM_MASTER_DATE_UPLOAD);
-                dataSetOk = dataSetOk && setUomGroup("Группа ЕИ", readFileXLSX.getData(row, COLLUM_2));
-                WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
-                dataSetOk = dataSetOk && setTabUomGroup("Продажи", "Код ЕИ продажи", readFileXLSX.getData(row, COLLUM_4));
-                WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
-                dataSetOk = dataSetOk && setTabUomGroup("Закупки", "Код ЕИ закупок", readFileXLSX.getData(row, COLLUM_3));
-                WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
-                Logger.logInfo("setting data for card " + readFileXLSX.getData(row, COLLUM_1) + " is OK = " + dataSetOk);
-//            readFileXLSX.setStatus(dataSetOk, row, COLLUM_5);
-                saveFileXLSX.setCellToFileXLSX(dataSetOk, row, COLLUM_1);
+                readFileXLSX.setStatus(operation(readFileXLSX, row), row, COLLUM_5);
+//                saveFileXLSX.setCellToFileXLSX(dataSetOk, row, COLLUM_1);
                 saveDateToFile.saveDateToFile(row);
                 Buttons.close();
-                Pages.initPage(MainPage.class).clickItemMasterData();
-//            Buttons.byLabel("Найти").clickIt();
-                WebUtils.waitUntilPageIsLoaded();
-                WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
             } catch (Exception e) {
                 Logger.log("Error", true, true);
                 e.printStackTrace();
-//                row--;
+                readFileXLSX.setStatus(false, row, COLLUM_5);
                 saveDateToFile.saveDateToFile(row);
                 WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
                 Buttons.close();
-                Pages.initPage(MainPage.class).clickItemMasterData();
+//                Pages.initPage(MainPage.class).clickItemMasterData();
             }
         }
+//        Buttons.close();
         return this;
     }
-
 }
