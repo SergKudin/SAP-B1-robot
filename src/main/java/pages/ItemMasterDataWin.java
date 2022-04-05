@@ -50,8 +50,8 @@ public class ItemMasterDataWin extends BasePage {
 //        return readFileXLSX;
 //    }
 
-    public Integer readStatusFile () {
-       return readFile.ReadFileData();
+    public Integer readStatusFile() {
+        return readFile.ReadFileData();
     }
 
     private Boolean setCode(String label, String value) {
@@ -71,7 +71,7 @@ public class ItemMasterDataWin extends BasePage {
         return TextInputs.byLabel(label, 1).putValue(value).sendEnter().textEquals(value);
     }
 
-    private Boolean operation(ReadFileXLSX readFileXLSX,  Integer row) {
+    private Boolean operation(ReadFileXLSX readFileXLSX, Integer row) {
         Boolean dataSetOk = true;
         Pages.initPage(MainPage.class).clickItemMasterData();
         WebUtils.waitUntilPageIsLoaded();
@@ -88,21 +88,31 @@ public class ItemMasterDataWin extends BasePage {
         return dataSetOk;
     }
 
-    public ItemMasterDataWin dataSet(ReadFileXLSX readFileXLSX, Integer row) {
-//        readDataFile();
-        while (row < readFileXLSX.sizeRows()-1) {
+    private Integer rowIterator(ReadFileXLSX readFileXLSX, Integer row) {
+//        String s = readFileXLSX.getData(row++, COLLUM_5);
+//        String s1 = readFileXLSX.getData(row, COLLUM_5);
+        row++;
+        while (readFileXLSX.getData(row, COLLUM_5).equals("true")) {
             row++;
-            Logger.logInfo("Row No=" + (row+1));
+        }
+        return row;
+    }
+
+    public ItemMasterDataWin dataSet(ReadFileXLSX readFileXLSX, Integer row) {
+        while (row < readFileXLSX.sizeRows() - 1) {
+            row = rowIterator(readFileXLSX, row);
+//            row++;
+            Logger.logInfo("Row No=" + (row + 1));
             try {
                 readFileXLSX.setStatus(operation(readFileXLSX, row), row, COLLUM_5);
 //                saveFileXLSX.setCellToFileXLSX(dataSetOk, row, COLLUM_1);
-                saveDateToFile.saveDateToFile(row);
+//                saveDateToFile.saveDateToFile(row);
                 Buttons.close();
             } catch (Exception e) {
                 Logger.log("Error", true, true);
                 e.printStackTrace();
                 readFileXLSX.setStatus(false, row, COLLUM_5);
-                saveDateToFile.saveDateToFile(row);
+//                saveDateToFile.saveDateToFile(row);
                 WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
                 Buttons.close();
 //                Pages.initPage(MainPage.class).clickItemMasterData();

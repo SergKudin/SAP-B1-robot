@@ -3,17 +3,24 @@ package utils;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
-import scala.util.parsing.combinator.testing.Str;
 
 import java.io.File;
 import java.io.IOException;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public final class Logger {
     private static int counter;
+    private static boolean saveON=false;
+    private static ArrayList<ArrayList<String>> log = new ArrayList<>();
 
     private Logger() {
         throw new RuntimeException();
+    }
+
+    public static void logSaveOn() {
+        saveON = true;
     }
 
     public static void logInfo(String str) {
@@ -38,10 +45,15 @@ public final class Logger {
         } else {
             System.out.printf("%d) %s [%s]: %s\n", ++counter, dateStr, methodName, str);
         }
+        if (saveON) {log.add(new ArrayList(Arrays.asList(counter + ")", dateStr, "[" + methodName + "]:", str)));}
         if (screenshot) {
             String saveS;
             Boolean sOk = saveScreenshots("/" + counter + ") " + dateStr.replace(":", "."));
-            if (sOk) {saveS = "Screenshot saved";} else {saveS = "Error: Screenshot not saved";}
+            if (sOk) {
+                saveS = "Screenshot saved";
+            } else {
+                saveS = "Error: Screenshot not saved";
+            }
             System.out.println("                " + saveS);
         }
     }
@@ -54,6 +66,15 @@ public final class Logger {
         } catch (IOException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static void saveLog() {
+        if (saveON) {
+            SaveToFileCSV save = new SaveToFileCSV();
+            save.saveList2ToFile(log, "log");
+        } else {
+            System.out.println("log.csv save disabled!");
         }
     }
 }

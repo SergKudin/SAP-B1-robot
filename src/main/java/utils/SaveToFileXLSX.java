@@ -168,7 +168,7 @@ public class SaveToFileXLSX {
                 cell = row.createCell(nCollum, CellType.STRING);
                 cell.setCellValue(dataRow.get(nCollum));
                 if (nRows == 0) {
-                    if (nCollum == dataRow.size()-1) {dataRow.set(dataRow.size()-1,"STATUS");};
+                    if (nCollum == dataRow.size()-1) {cell.setCellValue("STATUS");};
                     cell.setCellStyle(style);
                 }
             }

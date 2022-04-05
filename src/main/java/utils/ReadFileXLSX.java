@@ -47,7 +47,7 @@ public class ReadFileXLSX {
             newItemMasterDate.add(cell.getStringCellValue());
         }
         try {newItemMasterDate.get(4);}catch (Exception e){
-            newItemMasterDate.set(4,false + "");}
+            newItemMasterDate.add(4,false + "");}
         return newItemMasterDate;
     }
 

@@ -17,6 +17,7 @@ public class BaseTest {
 
     @BeforeClass
     public void BeforeClassMethod() {
+        Logger.logSaveOn();
         Logger.logInfo("Start BeforeClass");
         Logger.logInfo("Screenshots is Dir Empty:" + FileUtils.cleanScreenshots());
         driver = WebDriverManager.getDriver();
@@ -42,6 +43,9 @@ public class BaseTest {
     public void tearDown() {
         Logger.logInfo("Start AfterClass");
         SaveToFileXLSX save = new SaveToFileXLSX();
+        SaveToFileCSV save1 = new SaveToFileCSV();
+        save1.saveList2ToFile(readFileXLSX.getList(),"Data");
+        Logger.saveLog();
         if (save.saveListToXLSX(readFileXLSX.getList(),"Data")) {
             Logger.logInfo("Data save OK");
         } else {

@@ -21,10 +21,11 @@ public class MainClassTest extends BaseTest {
     public void debug() {
         Logger.logInfo("debug start");
         currentRow = Pages.initPage(ItemMasterDataWin.class).readStatusFile();
-        Logger.logInfo("Data set starts after row " + (currentRow+1));
+//        Logger.logInfo("Data set starts after row " + (currentRow+1));
         Pages.initPage(MainPage.class)
                 .openWindowItemMasterData()
-                .dataSet(readFileXLSX, currentRow);                ;
+                .dataSet(readFileXLSX, 0);                ;
+//                .dataSet(readFileXLSX, currentRow);                ;
     }
 
     @DataProvider(name = "javaCode")

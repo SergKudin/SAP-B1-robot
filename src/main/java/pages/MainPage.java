@@ -50,10 +50,11 @@ public class MainPage extends BasePage {
 
     public MainPage closeWindowLog() {
         waitUntilPageIsLoaded();
+        try {
         WebUtils.waitUntilElementVisible(windowLogClose);
         if (windowLogClose.isDisplayed()) {
             windowLogClose.click();
-        }
+        }} catch (Exception e) { e.printStackTrace();}
         return this;
     }
 
