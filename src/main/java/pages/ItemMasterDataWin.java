@@ -89,11 +89,10 @@ public class ItemMasterDataWin extends BasePage {
     }
 
     private Integer rowIterator(ReadFileXLSX readFileXLSX, Integer row) {
-//        String s = readFileXLSX.getData(row++, COLLUM_5);
-//        String s1 = readFileXLSX.getData(row, COLLUM_5);
         row++;
         while (readFileXLSX.getData(row, COLLUM_5).equals("true")) {
             row++;
+            if (row == readFileXLSX.sizeRows() - 1) return row;
         }
         return row;
     }

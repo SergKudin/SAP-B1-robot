@@ -23,6 +23,7 @@ public class WebDriverManager {
     static {
         options = new EdgeOptions();
     }
+
     private static Map<String, Object> preferences;
 
     static {
@@ -100,6 +101,7 @@ public class WebDriverManager {
 
     public static WebDriver getDriver() {
         String browser = System.getProperty("browser");
+        if (browser == null) browser = "chrome";
         if (driver == null) driver = setDriver(browser);
         return driver;
     }

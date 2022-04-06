@@ -12,7 +12,7 @@ public class ReadFile {
 
 
     public ReadFile ReadFileToList() {
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("C:\\jdk\\Project\\StartDate\\Sap B1 Robot.txt"))) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get("Sap B1 Robot.txt"))) { //C:\jdk\Project\StartDate\
             listDataFile = (ArrayList<String>) br.lines().collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
