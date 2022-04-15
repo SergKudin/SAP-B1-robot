@@ -33,4 +33,16 @@ public class FileUtils {
     }
 
     public static Path getPathScreenshots () {return SCREENSHOTS_DIR_PATH;}
+
+    public static void dataSave (ReadFileXLSX readFileXLSX, String path) {
+        SaveToFileXLSX save = new SaveToFileXLSX();
+        SaveToFileCSV save1 = new SaveToFileCSV();
+        save1.saveList2ToFile(readFileXLSX.getList(), path + "Data");
+        if (save.saveListToXLSX(readFileXLSX.getList(), path + "Data")) {
+            Logger.logInfo("File" + path + "Data.xlsx save OK");
+        } else {
+            Logger.logErr("ERROR. File " + path + "Data.xlsx not save");
+        }
+
+    }
 }

@@ -120,7 +120,7 @@ public class WebUtils {
         return String.format("\"%s\"", locator.substring(0, locator.length() - 1));
     }
 
-    public static void waitUntilPageIsLoaded() {
+    public static void waitUntilPageIsLoaded2() {
         FluentWait<WebDriver> wait = new WebDriverWait(driver(), Timeouts.PAGE_LOADING)
                 .withMessage("Page was not loaded in " + Timeouts.PAGE_LOADING)
                 .ignoring(StaleElementReferenceException.class);
@@ -131,7 +131,7 @@ public class WebUtils {
 //                ((JavascriptExecutor) driver).executeScript("return document.readyState").equals("complete"));
     }
 
-    public static void waitUntilPageIsLoaded2() {
+    public static void waitUntilPageIsLoaded() {
         FluentWait<WebDriver> wait = new WebDriverWait(driver(), Timeouts.PAGE_LOADING)
                 .withMessage("Page was not loaded in " + Timeouts.PAGE_LOADING)
                 .ignoring(StaleElementReferenceException.class);

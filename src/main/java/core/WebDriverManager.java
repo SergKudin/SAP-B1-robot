@@ -1,5 +1,6 @@
 package core;
 
+import com.typesafe.webdriver.PhantomJs;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -48,7 +49,6 @@ public class WebDriverManager {
                 driver = new ChromeDriver(cOptions);
                 break;
 
-
             case "chrome-headless":
                 io.github.bonigarcia.wdm.WebDriverManager.chromedriver().setup();
 
@@ -63,7 +63,8 @@ public class WebDriverManager {
                         .addArguments("--enable-automation")
                         .addArguments("--disable-infobars")
                         .addArguments("--disable-browser-side-navigation")
-                        .addArguments("--disable-gpu");
+                        .addArguments("--disable-gpu")
+                        ;
                 driver = new ChromeDriver(chromeOptions);
                 break;
 
@@ -105,4 +106,10 @@ public class WebDriverManager {
         if (driver == null) driver = setDriver(browser);
         return driver;
     }
+
+    public static WebDriver getDriver(String browser) {
+        if (driver == null) driver = setDriver(browser);
+        return driver;
+    }
+
 }

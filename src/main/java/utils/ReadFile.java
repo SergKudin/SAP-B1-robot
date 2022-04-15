@@ -1,5 +1,7 @@
 package utils;
 
+import core.Main;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,8 +13,8 @@ public class ReadFile {
     private ArrayList<String> listDataFile = new ArrayList<>();
 
 
-    public ReadFile ReadFileToList() {
-        try (BufferedReader br = Files.newBufferedReader(Paths.get("Sap B1 Robot.txt"))) { //C:\jdk\Project\StartDate\
+    public ReadFile ReadFileToList(String file) {
+        try (BufferedReader br = Files.newBufferedReader(Paths.get( file))) { //C:\jdk\Project\StartDate\
             listDataFile = (ArrayList<String>) br.lines().collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();

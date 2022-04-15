@@ -25,6 +25,7 @@ public class MainPage extends BasePage {
     }
 
     public LoginPage goToLoginPage() {
+
         if (driver.findElement(By.xpath("//div[@id='main-message']")).isDisplayed()) {
             driver.findElement(By.xpath("//button[@id='details-button']")).click();
             driver.findElement(By.xpath("//a[@id='proceed-link']")).click();
@@ -48,13 +49,30 @@ public class MainPage extends BasePage {
         return this;
     }
 
+    public MainPage siteQuite() {
+        try {
+            if (stock.isDisplayed()) {
+                WebUtils.waitUntilElementVisible(stock);
+                stock.sendKeys(Keys.CONTROL + "q");
+                Modals.clickButtons("Да");
+                Logger.logInfo("Site quite");
+            }
+        } catch (Exception e) {
+            Logger.logInfo("Error site quite");
+        }
+        return this;
+    }
+
     public MainPage closeWindowLog() {
         waitUntilPageIsLoaded();
         try {
-        WebUtils.waitUntilElementVisible(windowLogClose);
-        if (windowLogClose.isDisplayed()) {
-            windowLogClose.click();
-        }} catch (Exception e) { e.printStackTrace();}
+            WebUtils.waitUntilElementVisible(windowLogClose);
+            if (windowLogClose.isDisplayed()) {
+                windowLogClose.click();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return this;
     }
 

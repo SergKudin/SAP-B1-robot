@@ -10,11 +10,21 @@ public class DropDowns {
     private DropDowns(String label) {
         this.label = label;
 //        try {
-            input = WebUtils.getElement(String.format(Path.WRAPPER_BY_LABEL_INPUT, label));
+        input = WebUtils.getElement(String.format(Path.WRAPPER_BY_LABEL_INPUT, label));
 //        } catch (Exception ignored) {
 //            throw new RuntimeException(Messages.noSuchElement(String.format(Path.WRAPPER_BY_LABEL_INPUT2, label)));
 //        }
     }
+
+    private DropDowns(String label, String s) {
+        this.label = label;
+//        try {
+        input = WebUtils.getElement(String.format(Path.WRAPPER_BY_LABEL_INPUT2, label));
+//        } catch (Exception ignored) {
+//            throw new RuntimeException(Messages.noSuchElement(String.format(Path.WRAPPER_BY_LABEL_INPUT2, label)));
+//        }
+    }
+
 
     private WebElement input;
     private String label;
@@ -22,7 +32,8 @@ public class DropDowns {
 
     private interface Path {
         String WRAPPER_BY_LABEL_INPUT = "//label[text()='%s']/following-sibling::select[1]";
-        String WRAPPER_BY_LABEL_INPUT2 = "//*[text()='%s']/..";
+        String WRAPPER_BY_LABEL_INPUT2 = "//label[text()='%s']/preceding-sibling::select[1]";
+        //        String WRAPPER_BY_LABEL_INPUT2 = "//*[text()='%s']/..";
         String OPTIONS = WRAPPER_BY_LABEL_INPUT + "//option";
         String VALUE = WRAPPER_BY_LABEL_INPUT + "/following-sibling::label[1]";
     }
@@ -30,6 +41,11 @@ public class DropDowns {
     public static DropDowns byLabel(String label) {
         return new DropDowns(label);
     }
+
+    public static DropDowns byLabel(String label, String s) {
+        return new DropDowns(label, s);
+    }
+
 
     public DropDowns set(String option) {
         open();
@@ -70,4 +86,11 @@ public class DropDowns {
         List<WebElement> currentAsList = WebUtils.getElements(String.format(Path.VALUE, label));
         return (!currentAsList.isEmpty()) ? currentAsList.get(0).getAttribute("innerText") : "";
     }
+
+    public DropDowns waitValue() {
+        WebUtils.waitUntil(Messages.DROPDOWN_NOT_SELECTED, () -> getCurrentValue().isEmpty());
+        return this;
+    }
+
+
 }

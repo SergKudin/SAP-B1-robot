@@ -13,7 +13,7 @@ public class MainClassTest extends BaseTest {
         currentRow = Pages.initPage(ItemMasterDataWin.class).readStatusFile();
         Pages.initPage(MainPage.class)
                 .openWindowItemMasterData()
-                .dataSet(readFileXLSX, currentRow);                ;
+                .dataSet(readFileXLSX, currentRow, "");                ;
         Logger.logInfo("End " + n1);
     }
 
@@ -24,7 +24,7 @@ public class MainClassTest extends BaseTest {
 //        Logger.logInfo("Data set starts after row " + (currentRow+1));
         Pages.initPage(MainPage.class)
                 .openWindowItemMasterData()
-                .dataSet(readFileXLSX, 0);                ;
+                .dataSet(readFileXLSX, 0, "");                ;
 //                .dataSet(readFileXLSX, currentRow);                ;
     }
 

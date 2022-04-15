@@ -26,6 +26,20 @@ public class Modals {
         }
     }
 
+    public static void clickButtons(String buttonName) {
+//        if (isOpened()) {
+//            waitForItSelf();
+            WebUtils.getElements(String.format(Path.ANY_BY_TEXT, buttonName)).stream().forEach(n -> buttonsClick(n));
+//        }
+    }
+
+    private static void buttonsClick(WebElement w) {
+        try {
+            WebUtils.click(w);
+        } catch (Exception e) {
+        }
+    }
+
     public static void close() {
         waitForItSelf();
         Buttons.close(window);

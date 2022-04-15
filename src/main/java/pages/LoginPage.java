@@ -1,6 +1,7 @@
 
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import utils.*;
@@ -12,6 +13,7 @@ public class LoginPage extends BasePage {
     //    private static final String BASE = "//section[@class='login-page has-animation']";
     private static final String COMPANY = "//input[@id='sbo_custom_company']";
     private static final String LOGIN = "//input[@id='sbo_user']";
+    private static final String LOGIN_PAGE = "//div[text()='System Landscape Directory']";
     private static final String PASS = "//input[@id='sbo_password']";
     private static final String BUTTON = "//input[@id='logon_sbo_btn']";
     private static final String LOG_ON_BY_DOMAIN = "//input[@id='logon_by_domain']";
@@ -65,13 +67,20 @@ public class LoginPage extends BasePage {
         return this;
     }
 
-    public MainPage userLogin() {
-        readFile.ReadFileToList();
+    public boolean loginIsDisplayed() {
+       return driver.findElement(By.xpath(LOGIN_PAGE)).isDisplayed();
+    }
+
+    public MainPage userLogin(String file) {
+        readFile.ReadFileToList(file);
+        loginIsDisplayed();
         turnOffLogOnByDomain();
         typeCompany(readFile.getData(0));
         typeUserName(readFile.getData(1));
         typePassword(readFile.getData(2));
         clickLogButton();
+        Logger.logInfo("Company: " + readFile.getData(0));
+        Logger.logInfo("User login: " + readFile.getData(1));
         return Pages.initPage(MainPage.class);
     }
 

@@ -25,7 +25,7 @@ public class BaseTest {
         readFileXLSX.readToList();
         Pages.initPage(MainPage.class)
                 .goToLoginPage()
-                .userLogin();
+                .userLogin("Sap B1 Robot.txt");
     }
 
     @BeforeMethod
