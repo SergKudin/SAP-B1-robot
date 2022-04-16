@@ -55,6 +55,12 @@ public class DropDowns {
         return this;
     }
 
+    public DropDowns submit () {
+        Modals.clickButtons("Да");
+        Modals.clickButtons("Обновить");
+        return this;
+    }
+
     public DropDowns open() {
         WebUtils.waitUntil(Messages.ELEMENT_NOT_VISIBLE, input::isDisplayed);
         WebUtils.waitUntil(Messages.DROPDOWN_NOT_CLICKABLE, input::isEnabled);
@@ -71,7 +77,7 @@ public class DropDowns {
                 .collect(Collectors.toList()).get(0);
         WebUtils.clickElement(requiredOption);
         if (Modals.isOpened()) {
-            Modals.clickButton("Да");
+            Modals.clickButtons("Да");
         }
         return this;
     }

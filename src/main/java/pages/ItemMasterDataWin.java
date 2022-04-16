@@ -59,7 +59,10 @@ public class ItemMasterDataWin extends BasePage {
     private Boolean setUomGroup(String label, String value) {
         Logger.logInfo("set " + value);
         if (value.equals(DropDowns.byLabel(label).getCurrentValue())) return true;
-        return value.equals(DropDowns.byLabel(label).set(value).getCurrentValue());
+        return value.equals(DropDowns.byLabel(label)
+                .set(value)
+                .submit()
+                .getCurrentValue());
     }
 
     private Boolean setTabUomGroup(String labelTab, String label, String value) {
@@ -78,6 +81,7 @@ public class ItemMasterDataWin extends BasePage {
         DropDowns.byLabel("Группа ЕИ").waitValue();
         WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
         dataSetOk = dataSetOk && setUomGroup("Группа ЕИ", readFileXLSX.getData(row, COLLUM_2));
+        Modals.clickButtons("Отменить");
 //        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
 //        dataSetOk = dataSetOk && setTabUomGroup("Продажи", "Код ЕИ продажи", readFileXLSX.getData(row, COLLUM_4));
 //        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
@@ -112,8 +116,9 @@ public class ItemMasterDataWin extends BasePage {
             Logger.logInfo("Row No=" + (row + 1));
             try {
                 readFileXLSX.setStatus(operation(readFileXLSX, row), row, COLLUM_5);
-                Buttons.close();
-//                Modals.clickButtons("OK");
+//                Buttons.close();
+//                Modals.clickButtons("Обновить");
+                Buttons.modalsOpened();
                 row = check(readFileXLSX, row);
             } catch (Exception e) {
                 Logger.log("Error data set", true, true);
@@ -121,7 +126,7 @@ public class ItemMasterDataWin extends BasePage {
                 readFileXLSX.setStatus(false, row, COLLUM_5);
                 FileUtils.dataSave(readFileXLSX, path);
                 WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
-                Modals.clickButton("Да");
+                Modals.clickButtons("Да");
 //                Buttons.close();
                 if (error) {
                     Pages.initPage(MainPage.class).siteQuite();
