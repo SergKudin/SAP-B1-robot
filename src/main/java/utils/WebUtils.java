@@ -159,11 +159,6 @@ public class WebUtils {
 
     }
 
-
-    void conflictMetod (){
-
-    }
-
     public static WebElement waitUntilElementVisible(WebElement e) {
         FluentWait<WebDriver> wait = new WebDriverWait(driver, Timeouts.ELEMENT_VISIBILITY_TIMEOUT)
                 .ignoring(StaleElementReferenceException.class);

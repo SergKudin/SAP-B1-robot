@@ -121,7 +121,7 @@ public class ItemMasterDataWin extends BasePage {
                 readFileXLSX.setStatus(false, row, COLLUM_5);
                 FileUtils.dataSave(readFileXLSX, path);
                 WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
-                Modals.clickButton("Да");
+                Modals.clickButtons("Отменить");
 //                Buttons.close();
                 if (error) {
                     Pages.initPage(MainPage.class).siteQuite();
