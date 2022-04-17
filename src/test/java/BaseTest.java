@@ -14,6 +14,9 @@ public class BaseTest {
     ReadFileXLSX readFileXLSX = new ReadFileXLSX("Data.xlsx");
     protected WebDriver driver;
     public Integer currentRow;
+    final String PATH = "G:\\Мой диск\\1\\";
+    final String SITE = "https://192.168.0.63:8100/dispatcher";
+
 
     @BeforeClass
     public void BeforeClassMethod() {
@@ -21,7 +24,7 @@ public class BaseTest {
         Logger.logInfo("Start BeforeClass");
         Logger.logInfo("Screenshots is Dir Empty:" + FileUtils.cleanScreenshots());
         driver = WebDriverManager.getDriver();
-        driver.get(Const.SITE.getConst());
+        driver.get(SITE);
         readFileXLSX.readToList();
         Pages.initPage(MainPage.class)
                 .goToLoginPage()

@@ -44,11 +44,28 @@ public class ReadFileXLSX {
         ArrayList<String> newItemMasterDate = new ArrayList<String>(5);
         while (cellIterator.hasNext()) {
             Cell cell = cellIterator.next();
-            newItemMasterDate.add(cell.getStringCellValue());
+            newItemMasterDate.add(getCellValue(cell));
         }
-        try {newItemMasterDate.get(4);}catch (Exception e){
-            newItemMasterDate.add(4,false + "");}
+        try {
+            newItemMasterDate.get(4);
+        } catch (Exception e) {
+            newItemMasterDate.add(4, false + "");
+        }
         return newItemMasterDate;
+    }
+
+    private String getCellValue(Cell cell) {
+        String s = null;
+        switch (cell.getCellType()) {
+            case NUMERIC:
+                s = cell.getNumericCellValue() + "";
+                s = s.replace(".0", "");
+                break;
+            case STRING:
+                s = cell.getStringCellValue();
+                break;
+        }
+        return s;
     }
 
     public void setStatus(Boolean status, Integer nRow, Integer nCollum) {
@@ -62,7 +79,7 @@ public class ReadFileXLSX {
         return listDataFile.get(nRow).get(nCollum);
     }
 
-    public ArrayList<ArrayList<String>> getList () {
+    public ArrayList<ArrayList<String>> getList() {
         return listDataFile;
     }
 
