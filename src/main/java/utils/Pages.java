@@ -8,3 +8,4 @@ public class Pages {
         return PageFactory.initElements(WebDriverManager.getDriver(), page);
     }
 }
+
