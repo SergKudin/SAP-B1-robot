@@ -19,9 +19,9 @@ import java.util.List;
 import java.util.concurrent.Callable;
 
 public class WebUtils {
-    private static final Logger logger = LoggerFactory.getLogger(WebUtils.class);
     private static WebDriver driver = WebDriverManager.getDriver();
     private static JavascriptExecutor jse = (JavascriptExecutor) driver;
+    private static final Logger logger = LoggerFactory.getLogger(WebUtils.class);
 
     public static Logger getLog() {
         return logger;
@@ -155,10 +155,6 @@ public class WebUtils {
         return dateFormat.format(date);
     }
 
-    void conflictMetod (){
-
-    }
-
     public static WebElement waitUntilElementVisible(WebElement e) {
         FluentWait<WebDriver> wait = new WebDriverWait(driver, Timeouts.ELEMENT_VISIBILITY_TIMEOUT)
                 .ignoring(StaleElementReferenceException.class);
@@ -189,16 +185,16 @@ public class WebUtils {
         }
     }
 
-    public static List<WebElement> getElements(String xpath) {
-        return driver().findElements(By.xpath(xpath));
-    }
-
 //    public static WebElement getElement(String xpath) {
 //        List<WebElement> asList = getElements(xpath);
 //        if (asList.isEmpty())
 //            throw new NoSuchElementException(Messages.noSuchElement(xpath));
 //        return getElements(xpath).get(0);
 //    }
+
+    public static List<WebElement> getElements(String xpath) {
+        return driver().findElements(By.xpath(xpath));
+    }
 
     public static WebElement getElementUnder(WebElement e, String xpath) {
         return getElementsUnder(e, xpath).get(0);
@@ -264,8 +260,7 @@ public class WebUtils {
         /*искать сообщение "не найдено"
         если нашел, то передернуть стр и выполнить еще раз res = c.call()
          */
-        return res;
+       return res;
     }
-
 
 }

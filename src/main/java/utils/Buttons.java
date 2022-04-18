@@ -38,10 +38,10 @@ public class Buttons {
 
     public static void modalsOpened () {
         if (Modals.isOpened()) {
-            Modals.clickButtons("Да");
+            Modals.clickButton("Да");
         }
         if (Modals.isOpened()) {
-            Modals.clickButtons("OK");
+            Modals.clickButton("OK");
         }
     }
 

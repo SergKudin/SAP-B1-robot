@@ -28,7 +28,7 @@ public class Modals {
 
     public static void clickButtons(String buttonName) {
 //        if (isOpened()) {
- //           waitForItSelf();
+//            waitForItSelf();
             WebUtils.getElements(String.format(Path.ANY_BY_TEXT, buttonName)).stream().forEach(n -> buttonsClick(n));
 //        }
     }
