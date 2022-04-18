@@ -113,7 +113,6 @@ public class ItemMasterDataWin extends BasePage {
             try {
                 readFileXLSX.setStatus(operation(readFileXLSX, row), row, COLLUM_5);
                 Buttons.close();
-//                Modals.clickButtons("OK");
                 row = check(readFileXLSX, row);
             } catch (Exception e) {
                 Logger.log("Error data set", true, true);
