@@ -82,7 +82,11 @@ public class MainPage extends BasePage {
         if (sysWin.isDisplayed()) {
             sysWin.sendKeys(Keys.ENTER);
         }
-        closeWindowLog().clickStocks();
+//        try {
+//            Modals.clickButtons("Да");
+//        } catch (Exception e) {}
+        closeWindowLog().
+                clickStocks();
         return Pages.initPage(ItemMasterDataWin.class);
     }
 

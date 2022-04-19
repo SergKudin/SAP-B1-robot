@@ -21,8 +21,6 @@ public class ItemMasterDataWin extends BasePage {
     private Boolean check = false;
     private Boolean error = false;
 
-
-    //   //label[text()='Код ЕИ закупок']/following-sibling::select[1] - универсальный xPath для заголовка
     private static final String BUTTON_OK = "//button[@class='c1']";
 
     public ItemMasterDataWin() {
@@ -38,12 +36,6 @@ public class ItemMasterDataWin extends BasePage {
         clickElement(WebUtils.getElement(String.format(TAB_BY_LABEL, name)));
         waitUntilPageIsLoaded();
         return Pages.initPage(Tabs.class);
-    }
-
-    public MainPage gotoMainPage() {
-//        driver.switchTo().window(MainWindow);
-
-        return Pages.initPage(MainPage.class);
     }
 
     public Integer readStatusFile() {
@@ -70,11 +62,11 @@ public class ItemMasterDataWin extends BasePage {
     }
 
     private Boolean operation(ReadFileXLSX readFileXLSX, Integer row) {
-        Boolean dataSetOk = true;
+        boolean dataSetOk;
         Pages.initPage(MainPage.class).clickItemMasterData();
         WebUtils.waitUntilPageIsLoaded();
         WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
-        dataSetOk = dataSetOk && setCode("Код", readFileXLSX.getData(row, COLLUM_1));
+        dataSetOk = setCode("Код", readFileXLSX.getData(row, COLLUM_1));
         DropDowns.byLabel("Группа ЕИ").waitValue();
         WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
         dataSetOk = dataSetOk && setUomGroup("Группа ЕИ", readFileXLSX.getData(row, COLLUM_2));
