@@ -77,12 +77,18 @@ public class MainPage extends BasePage {
     }
 
     public ItemMasterDataWin openWindowItemMasterData() {
-        MainWindow = driver.getWindowHandle();
-        WebElement sysWin = driver.findElement(By.xpath("//button[@title = 'OK']"));
-        if (sysWin.isDisplayed()) {
-            sysWin.sendKeys(Keys.ENTER);
+//        MainWindow = driver.getWindowHandle();
+//        WebElement sysWin = driver.findElement(By.xpath("//button[@title = 'OK']"));
+//        if (sysWin.isDisplayed()) {
+//            sysWin.sendKeys(Keys.ENTER);
+//        }
+        try {
+            Modals.clickButtons("Да");
+//                        closeWindowLog();
+        } catch (Exception ignored) {
         }
-        closeWindowLog().clickStocks();
+        Buttons.close();
+        clickStocks();
         return Pages.initPage(ItemMasterDataWin.class);
     }
 

@@ -1,10 +1,9 @@
 package pages;
 
-import core.Main;
-import utils.*;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import pages.blocks.Tabs;
+import utils.*;
 
 import java.util.List;
 
@@ -59,7 +58,13 @@ public class ItemMasterDataWin extends BasePage {
     private Boolean setUomGroup(String label, String value) {
         Logger.logInfo("set " + value);
         if (value.equals(DropDowns.byLabel(label).getCurrentValue())) return true;
-        return value.equals(DropDowns.byLabel(label).set(value).getCurrentValue());
+        boolean dataSetOk = value.equals(DropDowns.byLabel(label).set(value).getCurrentValue());
+        Modals.clickButtons("Обновить");
+//        Modals.clickButtons("Отменить");
+//        Modals.clickButtons("OK");
+//        Buttons.close();
+//        Modals.clickButtons("Да");
+        return dataSetOk;
     }
 
     private Boolean setTabUomGroup(String labelTab, String label, String value) {
@@ -83,6 +88,9 @@ public class ItemMasterDataWin extends BasePage {
 //        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
 //        dataSetOk = dataSetOk && setTabUomGroup("Закупки", "Код ЕИ закупок", readFileXLSX.getData(row, COLLUM_3));
 //        WebUtils.pause(Timeouts.ITEM_MASTER_DATE_WINDOW_UPLOAD);
+//        Modals.clickButtons("Отменить");
+        Modals.clickButtons("OK");
+//        Buttons.close();
         Logger.logInfo("setting data for card " + readFileXLSX.getData(row, COLLUM_1) + " is OK = " + dataSetOk);
         return dataSetOk;
     }
@@ -112,7 +120,7 @@ public class ItemMasterDataWin extends BasePage {
             Logger.logInfo("Row No=" + (row + 1));
             try {
                 readFileXLSX.setStatus(operation(readFileXLSX, row), row, COLLUM_5);
-                Buttons.close();
+//                Buttons.close();
 //                Modals.clickButtons("OK");
                 row = check(readFileXLSX, row);
             } catch (Exception e) {
